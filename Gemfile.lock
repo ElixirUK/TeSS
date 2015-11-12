@@ -1,5 +1,6 @@
-PATH
-  remote: /Users/Beardface/Projects/tate
+GIT
+  remote: git://github.com/ElixirUK/Tate.git
+  revision: 924b79f582eaba4a018b611faea7cd923db007ab
   specs:
     tate (0.0.1)
       rails (~> 4.2.4)
