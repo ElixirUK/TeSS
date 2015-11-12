@@ -24,8 +24,8 @@ gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
 
-#gem 'tate', :git => 'git://github.com/ElixirUK/Tate.git'
-gem 'tate', :path => '/Users/Beardface/Projects/tate'
+gem 'tate', :git => 'git://github.com/ElixirUK/Tate.git'
+#gem 'tate', :path => '/Users/Beardface/Projects/tate'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
