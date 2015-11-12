@@ -20,6 +20,7 @@
     <% end %>
     <% if current_user %>
         <%= menu_group pull: :right do %>
+            You are logged in as <%= current_user.username %>
             <%= menu_item "Sign out", destroy_user_session_path, :method => :delete %>
         <% end %>
     <% else %>

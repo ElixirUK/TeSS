@@ -16,4 +16,5 @@ class Node < ActiveRecord::Base
   validates :home_page, presence: true
   validates :home_page, format: { with: URI.regexp }, if: Proc.new { |a| a.home_page.present? }
 
+  acts_as_annotatable :field_name => :name
 end

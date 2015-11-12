@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   acts_as_token_authenticatable
+  acts_as_annotation_source
 
   attr_accessor :login
 

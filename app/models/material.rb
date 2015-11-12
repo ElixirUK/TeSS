@@ -5,6 +5,8 @@ class Material < ActiveRecord::Base
   has_one :authors, foreign_key: "user_id", class_name: "User"
   has_many :contributors, foreign_key: "user_id", class_name: "User"
 
+  acts_as_annotatable :name_field => :name
+
   # Generated:
   # title:text url:string short_description:string doi:string  remote_updated_date:date remote_created_date:date local_updated_date:date remote_updated_date:date
   # TODO:

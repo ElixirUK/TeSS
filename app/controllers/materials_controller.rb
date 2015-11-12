@@ -20,6 +20,9 @@ class MaterialsController < ApplicationController
   # GET /materials/1
   # GET /materials/1.json
   def show
+    @annotations = @material.annotations
+    @new_annotation = Tate::Annotation.new
+    @new_annotation.annotatable = @material
   end
 
   # GET /materials/new

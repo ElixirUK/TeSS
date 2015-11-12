@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151009074405) do
+ActiveRecord::Schema.define(version: 20151102133329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,104 @@ ActiveRecord::Schema.define(version: 20151009074405) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tate_annotation_attributes", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "identifier", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tate_annotation_attributes", ["name", "identifier"], name: "index_tate_annotation_attributes_on_name_and_identifier", using: :btree
+
+  create_table "tate_annotation_value_seeds", force: :cascade do |t|
+    t.integer  "attribute_id",                                            null: false
+    t.string   "old_value"
+    t.string   "tate_annotation_attributes",                              null: false
+    t.string   "identifier",                                              null: false
+    t.string   "value_type",                 limit: 50, default: "FIXME", null: false
+    t.integer  "value_id",                              default: 0,       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tate_annotation_value_seeds", ["attribute_id"], name: "index_tate_annotation_value_seeds_on_attribute_id", using: :btree
+
+  create_table "tate_annotation_versions", force: :cascade do |t|
+    t.integer  "annotation_id",                                             null: false
+    t.integer  "version",                                                   null: false
+    t.integer  "version_creator_id"
+    t.string   "source_type",                                               null: false
+    t.integer  "source_id",                                                 null: false
+    t.string   "annotatable_type",   limit: 50,                             null: false
+    t.integer  "annotatable_id",                                            null: false
+    t.integer  "attribute_id",                                              null: false
+    t.string   "old_value"
+    t.string   "value_type",         limit: 50, default: "Tate::TextValue", null: false
+    t.integer  "value_id",                      default: 0,                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tate_annotation_versions", ["annotation_id"], name: "index_tate_annotation_versions_on_annotation_id", using: :btree
+
+  create_table "tate_annotations", force: :cascade do |t|
+    t.string   "source_type",                                               null: false
+    t.integer  "source_id",                                                 null: false
+    t.string   "annotatable_type",   limit: 50,                             null: false
+    t.integer  "annotatable_id",                                            null: false
+    t.integer  "attribute_id",                                              null: false
+    t.string   "old_value"
+    t.string   "value_type",         limit: 50, default: "Tate::TextValue", null: false
+    t.integer  "value_id",                      default: 0,                 null: false
+    t.integer  "version",                                                   null: false
+    t.integer  "version_creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tate_annotations", ["annotatable_type", "annotatable_id"], name: "index_tate_annotations_on_annotatable_type_and_annotatable_id", using: :btree
+  add_index "tate_annotations", ["attribute_id"], name: "index_tate_annotations_on_attribute_id", using: :btree
+  add_index "tate_annotations", ["source_type", "source_id"], name: "index_tate_annotations_on_source_type_and_source_id", using: :btree
+  add_index "tate_annotations", ["value_type", "value_id"], name: "index_tate_annotations_on_value_type_and_value_id", using: :btree
+
+  create_table "tate_number_value_versions", force: :cascade do |t|
+    t.integer  "number_value_id",    null: false
+    t.integer  "version",            null: false
+    t.integer  "version_creator_id"
+    t.integer  "number",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tate_number_value_versions", ["number_value_id"], name: "index_tate_number_value_versions_on_number_value_id", using: :btree
+
+  create_table "tate_number_values", force: :cascade do |t|
+    t.integer  "version",            null: false
+    t.integer  "version_creator_id"
+    t.integer  "number",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tate_text_value_versions", force: :cascade do |t|
+    t.integer  "text_value_id",      null: false
+    t.integer  "version",            null: false
+    t.integer  "version_creator_id"
+    t.text     "text",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tate_text_value_versions", ["text_value_id"], name: "index_tate_text_value_versions_on_text_value_id", using: :btree
+
+  create_table "tate_text_values", force: :cascade do |t|
+    t.integer  "version",            null: false
+    t.integer  "version_creator_id"
+    t.text     "text",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "username"
     t.string   "email",                  default: "", null: false
@@ -122,6 +220,13 @@ ActiveRecord::Schema.define(version: 20151009074405) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
+
+  create_table "workflows", force: :cascade do |t|
+    t.string   "name"
+    t.json     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   add_foreign_key "users", "roles"
 end
