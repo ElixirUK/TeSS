@@ -14,6 +14,7 @@ biotools:
   source: material_with_external_resource (Material)
   url: https://bio.tools/tool/SR-Tesseler
   title: SR-Tesseler
+  tool_type: Desktop application
 
 
 biotwools:

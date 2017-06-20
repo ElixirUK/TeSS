@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607110245) do
+ActiveRecord::Schema.define(version: 20170620123606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20170607110245) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "source_type"
+    t.string   "tool_type"
   end
 
   add_index "external_resources", ["source_id", "source_type"], name: "index_external_resources_on_source_id_and_source_type", using: :btree

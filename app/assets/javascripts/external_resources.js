@@ -1,5 +1,5 @@
 var ExternalResources = {
-    add: function (title, url) {
+    add: function (title, url, tooltype) {
         var newForm = $('#external-resource-template').clone().html();
 
         // Ensure the index of the new form is 1 greater than the current highest index, to prevent collisions
@@ -18,6 +18,7 @@ var ExternalResources = {
         if (typeof title !== 'undefined' && typeof url !== 'undefined') {
             $('.external-resource-title', newForm).val(title);
             $('.external-resource-url', newForm).val(url);
+            $('.external-resource-tooltype', newForm).val(tooltype.replace(",",", "));
         }
 
         return false; // Stop form being submitted

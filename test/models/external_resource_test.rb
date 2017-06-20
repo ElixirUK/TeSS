@@ -19,4 +19,9 @@ class ExternalResourceTest < ActiveSupport::TestCase
     assert_empty external_resources(:google).api_url_of_tool
   end
 
+  test 'check tool_type is present' do
+    assert_not_nil  external_resources(:biotools).tool_type
+    assert_nil external_resources(:biotwools).tool_type
+  end
+
 end

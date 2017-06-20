@@ -37,7 +37,7 @@ var Biotools = {
     }, 
     associateTool: function(event){
         obj = $(event.target);
-        ExternalResources.add(obj.data('title'), obj.data('url'));
+        ExternalResources.add(obj.data('title'), obj.data('url'),obj.data('tooltype'));
         obj.parent().parent().fadeOut();
     },
     displayTools: function(json){
@@ -49,15 +49,18 @@ var Biotools = {
                 '<h4>' +
                     '<i class="fa fa-wrench"></i> ' +
                     '<a href="' + url + '">' +
-                        '<span class="title">' +
-                            item.name +
-                        '</span>' +
+                    '<span class="title">' +
+                        item.name +
+                    '</span>' +
                     '</a>' +
                     ' <i id="' + item.id + '" ' +
                     'class="fa fa-plus-square-o associate-tool"/ ' +
                     'title="click to associate ' + item.name + ' with this resource"' +
-                    'data-title="' + item.name + '" data-url="' + url + '"/>' +
+                    'data-title="' + item.name + '" data-url="' + url + '" ' +
+                    'data-tooltype="' + item.toolType +
+                    '"/>' +
                 '</h4>' +
+                '<h5><i>' + item.toolType + '</i></h5>' +
                 '<span>' + item.description + '</span>' +
                     '<div class="external-links">' +
                         '<a class="btn btn-warning" target="_blank" href="' + Biotools.websiteBaseURL() + '/' + item.id +'">' +

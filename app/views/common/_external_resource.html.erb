@@ -17,12 +17,12 @@
         <% if external_resource.is_biosharing? -%>
         <img src="<%= image_url('biosharing-is.svg')-%>" class="pull-right" alt="Link to BioSharing" width="100px"/>
         <% end -%>
-        <!--
-        <p>API URI: <%= api_uri -%></p>
-        <p>URL: <%= external_resource.url -%></p>
-        -->
       </h4>
   <% end %>
+
+  <% if external_resource.is_tool? and external_resource.tool_type -%>
+    <h5><i><%= external_resource.tool_type -%></i></h5>
+  <% end -%>
 
   <% if api_uri %>
     <span id="<%=id%>-desc"></span>
