@@ -35,10 +35,31 @@ var TopicSuggestions = {
                     all_suggestions.remove()
                 }
             });
+    },
+    remove: function(){
+        var topic_info = $(this).parents('.activity')
+        var url = "/" + topic_info.data('resource_type') + "/" + topic_info.data('resource_id') + "/remove_topic"
+        $.post(url, { topic: topic_info.data('topic')})
+            .done(function( data ) {
+                topic_info.html('<h4 style="text-align:center">This topic annotation has now been removed from this resource</h4>');
+                console.log("Removed topic")
+            });
+    },
+    restore: function(){
+        var topic_info = $(this).parents('.activity')
+        var url = "/" + topic_info.data('resource_type') + "/" + topic_info.data('resource_id') + "/remove_topic"
+        $.post(url, { topic: topic_info.data('topic')})
+            .done(function( data ) {
+                topic_info.html('<h4 style="text-align:center">This topic suggestion has now been restored</h4>');
+            });
+
     }
+
 }
 
 $(document).ready(function () {
     $('.suggestion_action').on('click','.accept_suggestion', TopicSuggestions.accept);
     $('.suggestion_action').on('click','.reject_suggestion', TopicSuggestions.reject);
+    $('.curator_actions').on('click','.remove_topic', TopicSuggestions.remove);
+    $('.curator_actions').on('click','.restore_suggestion', TopicSuggestions.restore);
 });

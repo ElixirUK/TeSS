@@ -47,8 +47,10 @@ Rails.application.routes.draw do
     end
     member do
       get 'redirect'
-      post 'add_topic'
-      post 'reject_topic'
+      post :add_topic
+      post :reject_topic
+      post :remove_topic
+      post :restore_suggestion
       get 'report'
       patch 'report', to: 'events#update_report'
     end
@@ -72,6 +74,8 @@ Rails.application.routes.draw do
     member do
       post :reject_topic
       post :add_topic
+      post :remove_topic
+      post :restore_suggestion
     end
     collection do
       get 'count'
@@ -99,6 +103,7 @@ Rails.application.routes.draw do
   end
 
   get 'curate/topic_suggestions' => 'curator#topic_suggestions'
+  get 'curate/my_edits' => 'curator#my_edits'
   get 'curate' => 'curator#index'
 
 

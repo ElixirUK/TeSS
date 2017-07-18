@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy, :update_packages, :add_topic, :reject_topic,
-                                   :redirect, :report, :update_report]
+                                   :redirect, :report, :update_report, :remove_topic, :restore_suggestion]
   before_action :set_breadcrumbs
   before_action :disable_pagination, only: :index, if: lambda { |controller| controller.request.format.ics? or controller.request.format.csv? }
 
@@ -118,11 +118,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update(event_params)
         @event.create_activity(:update, owner: current_user) if @event.log_update_activity?
-        # TODO: Consider whether this is proper behaviour or whether a user should explicitly delete this
-        # TODO: suggestion, somehow.
-        if @event.edit_suggestion
-          @event.edit_suggestion.delete
-        end
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -192,6 +187,41 @@ class EventsController < ApplicationController
                            }
     render :nothing => true
   end
+
+  # POST /events/1/remove_topic
+  def remove_topic
+    topic = EDAM::Ontology.instance.lookup_by_name(params[:topic])
+    log_params = {uri: topic.uri,
+                  name: topic.preferred_label}
+    @event.update_attributes(scientific_topics: @event.scientific_topics.reject{|x| x == topic})
+    EditSuggestion.create_suggestion(@event, topic)
+    @event.create_activity :remove_topic,
+                           {
+                               owner: current_user,
+                               recipient: @event.user,
+                               parameters: log_params
+                           }
+    render :nothing => true
+
+  end
+
+  # POST /events/1/restore_suggestion
+  def restore_suggestion
+    topic = EDAM::Ontology.instance.lookup_by_name(params[:topic])
+    log_params = {uri: topic.uri,
+                  name: topic.preferred_label}
+    EditSuggestion.create_suggestion(@event, topic)
+    @event.create_activity :restore_suggestion,
+                           {
+                               owner: current_user,
+                               recipient: @event.user,
+                               parameters: log_params
+                           }
+
+    render :nothing => true
+  end
+
+
 
   def redirect
     @event.widget_logs.create(widget_name: params[:widget],

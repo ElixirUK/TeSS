@@ -16,6 +16,20 @@ class EditSuggestion < ActiveRecord::Base
     self.destroy if suggestions.empty?
   end
 
+  def self.create_suggestion resource, topic
+    suggestion = resource.edit_suggestion
+    if suggestion.nil?
+      es = EditSuggestion.new(
+                             suggestible: resource,
+                             scientific_topics: [topic]
+      )
+      es.save!
+    else
+      suggestion.scientific_topics << topic
+      suggestion.save!
+    end
+  end
+
   #Params: :uri => http://edamontology.org/3023
   #        :name => 'RNA-Seq'
   def drop_topic options={}

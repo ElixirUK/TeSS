@@ -3,7 +3,7 @@
   <div id="sidebar" class="popout-sidebar">
 
     <h3 class="nav-heading" id="sidebar-header">
-      Blah
+      Curation actions
     </h3>
     <% if @leaderboard %>
         <%= render :partial => 'leaderboard', :locals => {:leaderboard => @leaderboard} %>
@@ -12,7 +12,9 @@
 
   <div id="content">
     <div class="row">
-      <h3>Displaying all <%= pluralize @suggestions.count, 'topic suggestion' %></h3>
+      <%= link_to curate_my_edits_path, :class=>"btn btn-primary" do %>
+          <i class="fa fa-person"></i> View my curation activity
+      <% end %>
       <div class="pull-right">
         <%= info_button('How to curate topics in TeSS') do %>
             <%= render_markdown(MaterialsHelper::TOPICS_INFO) %>
