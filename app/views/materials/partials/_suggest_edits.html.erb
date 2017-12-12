@@ -6,28 +6,7 @@
 
     <%= simple_form_for @material, :method => :post, :url => "/suggest/#{material.class.name}/#{material.id}" do |f| -%>
 
-      <% Material.suggested_fields.each do |field| -%>
-        <% if material.send(field).blank? || material.send(field) == 'notspecified' -%>
-            <p>
-              <% if field == :licence -%>
-                  <%= f.input :licence, collection: licence_options_for_select, selected: @material.licence.blank? ? "notspecified" : @material.licence, field_lock: true %>
-              <% elsif field == :difficulty_level -%>
-                  <%= f.input :difficulty_level, collection: difficulty_options_for_select, selected: @material.difficulty_level.blank? ? "notspecified" : @material.difficulty_level, field_lock: true %>
-              <% elsif field == :contributors -%>
-                  <%= f.multi_input :contributors, suggestions: people_suggestions -%>
-              <% elsif field == :authors -%>
-                  <%= f.multi_input :authors, suggestions: people_suggestions %>
-              <% elsif field == :target_audience -%>
-                  <%= f.multi_input :target_audience %>
-              <% elsif field == :long_description -%>
-                  <%= f.input :long_description, as: :markdown_area, input_html: { rows: '10' }, field_lock: true %>
-              <% else -%>
-                  <%= f.input field, field_lock: true %>
-              <% end -%>
-
-            </p>
-        <% end -%>
-      <% end -%>
+      <%= render partial: 'materials/partials/form_content', locals: { resource: material, f: f } %>
 
       <input name="commit" value="Submit" class="btn btn-primary" type="submit">
       <btn class="btn btn-info" id="close_suggest_edits" onClick="hideSEarea()">Hide</btn>
@@ -36,10 +15,8 @@
 
   </div>
 
-  <% if material.missing_fields? -%>
-    <btn class="btn btn-info" id="open_suggest_edits" onClick="showSEarea()">
-      Suggest Edits
-    </btn>
-  <% end -%>
+  <btn class="btn btn-info" id="open_suggest_edits" onClick="showSEarea()">
+    Suggest Edits
+  </btn>
 </div>
 

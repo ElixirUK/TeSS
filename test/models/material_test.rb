@@ -165,20 +165,4 @@ class MaterialTest < ActiveSupport::TestCase
     end
   end
 
-  test 'adding fields decreases no. of suggested fields' do
-    material = materials(:good_material)
-    assert_equal material.missing_fields?, true
-    Material.suggested_fields.each do |f|
-      if material[f].blank?
-        if material[f].is_a?(Array)
-          material[f] << 'Some random text'
-        else
-          material[f] = 'Some random text'
-        end
-      end
-    end
-    material.save!
-    assert_equal material.missing_fields?, false
-  end
-
 end

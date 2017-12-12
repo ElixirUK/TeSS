@@ -9,8 +9,10 @@ class EditSuggestionsController < ApplicationController
       # TODO: Create the edit suggestion here
       save = false
       suggestion = EditSuggestion.new(:suggestible_type => type, :suggestible_id => id, :data_fields => {})
-      Material.suggested_fields.each do |f|
+      Material.params.each do |f|
+        # TODO: Check new value actually differs from current value....
         value = params[type.downcase][f]
+        next if matching(record[f], value)
         if value.is_a?(Array)
           value = value.reject! { |s| s.strip.empty? || s.nil? }
         end
@@ -29,7 +31,19 @@ class EditSuggestionsController < ApplicationController
       redirect_to materials_path, notice: 'Sorry, something went wrong with your request.'
     end
 
+  end
 
+  private
+
+  def matching(one, two)
+    # Some arrays come through with empty values therein.
+    # The array order may vary so a comparison requires a set conversion.
+    if one.is_a?(Array) && two.is_a?(Array)
+      return true if Set.new(one.reject! { |s| s.strip.empty? || s.nil? }) == Set.new(two.reject! { |s| s.strip.empty? || s.nil? })
+    end
+    # Some numeric values are compared with a string which has come from the form.
+    return true if one.to_s == two.to_s
+    false
   end
 
 end
