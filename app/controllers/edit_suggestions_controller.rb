@@ -6,15 +6,13 @@ class EditSuggestionsController < ApplicationController
     record = type.constantize.find(id)
 
     if record
-      # TODO: Create the edit suggestion here
       save = false
       suggestion = EditSuggestion.new(:suggestible_type => type, :suggestible_id => id, :data_fields => {})
-      Material.params.each do |f|
-        # TODO: Check new value actually differs from current value....
+      record.class.params.each do |f|
         value = params[type.downcase][f]
         next if matching(record[f], value)
         if value.is_a?(Array)
-          value = value.reject! { |s| s.strip.empty? || s.nil? }
+          value.reject! { |s| s.strip.empty? || s.nil? }
         end
         unless value.blank? or value == 'notspecified'
           suggestion[:data_fields][f] = params[type.downcase][f]
@@ -39,7 +37,7 @@ class EditSuggestionsController < ApplicationController
     # Some arrays come through with empty values therein.
     # The array order may vary so a comparison requires a set conversion.
     if one.is_a?(Array) && two.is_a?(Array)
-      return true if Set.new(one.reject! { |s| s.strip.empty? || s.nil? }) == Set.new(two.reject! { |s| s.strip.empty? || s.nil? })
+      return true if Set.new(one.reject { |s| s.strip.empty? || s.nil? }) == Set.new(two.reject { |s| s.strip.empty? || s.nil? })
     end
     # Some numeric values are compared with a string which has come from the form.
     return true if one.to_s == two.to_s

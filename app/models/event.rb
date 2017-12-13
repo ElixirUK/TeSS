@@ -296,4 +296,8 @@ class Event < ActiveRecord::Base
 
     self.geographic_coordinates
   end
+
+  def self.params
+    %i[title url short_description long_description doi]
+  end
 end

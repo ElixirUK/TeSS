@@ -58,7 +58,9 @@ module TopicCuration
 
   #POST /<resource>/1/reject_data
   def reject_data
+    #puts "PARAMS: #{params.inspect}"
     resource = instance_variable_get("@#{controller_name.singularize}")
+    #puts "RESOURCE: #{resource.inspect}"
     authorize resource, :update?
 
     log_params = {data_field: params[:data_field],
