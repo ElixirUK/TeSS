@@ -299,6 +299,7 @@ class Event < ActiveRecord::Base
 
   # TODO: Fill out this params list
   def self.params
-    %i[title url short_description long_description doi event_types keywords]
+    %i[title subtitle organizer content_provider_id description node_ids event_types keywords target_audience
+        host_institutions start end sponsor content capacity eligibility materials]
   end
 end
