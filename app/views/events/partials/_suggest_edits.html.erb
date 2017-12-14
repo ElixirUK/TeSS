@@ -1,0 +1,38 @@
+<div id="suggest_edits_section">
+
+  <div id="suggest_edits_form_area" style="display: none;">
+    <hr>
+    <h4>Suggest Edits to record: <b><%= event.title -%></b></h4>
+
+    <%= simple_form_for @event, :method => :post, :url => "/suggest/#{event.class.name}/#{event.id}" do |f| -%>
+
+        <%= render partial: 'events/partials/form_content', locals: { resource: event, f: f } %>
+
+        <input name="commit" value="Submit" class="btn btn-primary" type="submit">
+        <btn class="btn btn-info" id="close_suggest_edits" onClick="hideSEarea()">Hide</btn>
+    <% end -%>
+
+
+  </div>
+
+  <btn class="btn btn-info" id="open_suggest_edits" onClick="showSEarea()">
+    Suggest Edits
+  </btn>
+</div>
+
+<script>
+    $(function(){
+        if (<%=@event.online?%>){
+            $('.address_content').hide()
+        }
+    })
+    $(document).on('change', '.location', function(){
+        console.log(this.value)
+        if (this.value == 'true'){
+            $('.address_content').hide()
+        } else {
+            $('.address_content').show()
+        }
+    })
+
+</script>

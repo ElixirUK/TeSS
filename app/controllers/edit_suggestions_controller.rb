@@ -5,6 +5,8 @@ class EditSuggestionsController < ApplicationController
     id = params[:id]
     record = type.constantize.find(id)
 
+    #puts "PARAMS: #{params.inspect}"
+
     if record
       save = false
       suggestion = EditSuggestion.new(:suggestible_type => type, :suggestible_id => id, :data_fields => {})

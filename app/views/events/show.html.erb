@@ -235,6 +235,8 @@
 
               <%= render :partial => 'events/partials/event_schemaorg', :locals => {:event => @event} %>
               <%= render :partial => 'events/partials/twitter_card', :locals => {:event => @event} %>
+              <%= render :partial => 'events/partials/suggest_edits', :locals => {:event => @event} %>
+              <br/>
 
               <%= render partial: 'events/report' if policy(@event).view_report? %>
 

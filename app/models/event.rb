@@ -297,7 +297,8 @@ class Event < ActiveRecord::Base
     self.geographic_coordinates
   end
 
+  # TODO: Fill out this params list
   def self.params
-    %i[title url short_description long_description doi]
+    %i[title url short_description long_description doi event_types keywords]
   end
 end
