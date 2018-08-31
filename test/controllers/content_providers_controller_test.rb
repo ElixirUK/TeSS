@@ -391,13 +391,13 @@ class ContentProvidersControllerTest < ActionController::TestCase
     bad_user = users(:unverified_user)
     bad_material = bad_user.materials.build(title: 'bla', url: 'http://example.com/spam', short_description: '123',
                                             content_provider: @content_provider)
-    assert bad_material.user_requires_approval?
+    assert bad_material.prompts_approval_email?
     bad_material.save!
 
     good_user = users(:regular_user)
     good_material = good_user.materials.build(title: 'h', url: 'http://example.com/good-stuff', short_description: '456',
                                               content_provider: @content_provider)
-    refute good_material.user_requires_approval?
+    refute good_material.prompts_approval_email?
     good_material.save!
 
     get :show, id: @content_provider

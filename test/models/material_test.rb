@@ -173,11 +173,11 @@ class MaterialTest < ActiveSupport::TestCase
     user = users(:unverified_user)
 
     first_material = user.materials.build(title: 'bla', url: 'http://example.com/spam', short_description: '123')
-    assert first_material.user_requires_approval?
+    assert first_material.prompts_approval_email?
     first_material.save!
 
     second_material = user.materials.build(title: 'bla', url: 'http://example.com/spam2', short_description: '123')
-    refute second_material.user_requires_approval?
+    refute second_material.prompts_approval_email?
   end
 
   test 'should not add duplicate external resources' do
@@ -230,12 +230,12 @@ class MaterialTest < ActiveSupport::TestCase
   test 'verified users scope' do
     bad_user = users(:unverified_user)
     bad_material = bad_user.materials.build(title: 'bla', url: 'http://example.com/spam', short_description: 'vvv')
-    assert bad_material.user_requires_approval?
+    assert bad_material.prompts_approval_email?
     bad_material.save!
 
     good_user = users(:regular_user)
     good_material = good_user.materials.build(title: 'h', url: 'http://example.com/good-stuff', short_description: 'vvv')
-    refute good_material.user_requires_approval?
+    refute good_material.prompts_approval_email?
     good_material.save!
 
     # Unscoped

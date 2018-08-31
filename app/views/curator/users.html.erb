@@ -32,7 +32,8 @@
 </div>
 
 <div class="col-sm-8 col-sm-pull-4">
-  <% @users.each do |user| %>
+  <% # Bump unverified users with content to the top of the list %>
+  <% @users.sort_by { |u| (u.has_role?('unverified_user') && u.created_resources.any?) ? 0 : 1 }.each do |user| %>
     <div class="panel panel-default curate-user">
       <div class="panel-heading">
         <%= link_to user.name, user, target: :_blank %>

@@ -2,7 +2,7 @@ module CurationQueue
   extend ActiveSupport::Concern
 
   included do
-    after_create :notify_curators, if: :user_requires_approval?
+    after_create :notify_curators, if: :prompts_approval_email?
   end
 
   class_methods do
@@ -11,7 +11,7 @@ module CurationQueue
     end
   end
 
-  def user_requires_approval?
+  def prompts_approval_email? # Is the user unverified, and is this the first resource they've created?
     user && user.has_role?('unverified_user') && (user.created_resources - [self]).none?
   end
 

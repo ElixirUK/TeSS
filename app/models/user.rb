@@ -229,6 +229,10 @@ class User < ActiveRecord::Base
     materials + events
   end
 
+  def requires_approval?
+    has_role?('unverified_user') && created_resources.any?
+  end
+
   private
 
   def reassign_owner
