@@ -11,7 +11,7 @@ class Material < ActiveRecord::Base
   include LockableFields
   include Scrapable
   include Searchable
-  include CurationQueue
+  include SpamPrevention
   include HasSuggestions
   include IdentifiersDotOrg
 

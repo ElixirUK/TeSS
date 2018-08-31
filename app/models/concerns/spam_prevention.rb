@@ -1,4 +1,4 @@
-module CurationQueue
+module SpamPrevention
   extend ActiveSupport::Concern
 
   included do
