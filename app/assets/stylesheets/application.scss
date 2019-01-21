@@ -128,11 +128,15 @@ div.wrapper {
       z-index: 10;
       background: white;
       border-bottom: 1px solid #cccccc;
-      box-shadow: 2px 2px 3px 0 #999;
+      box-shadow: 1px 1px 3px 0 #666;
       display: none;
       &.open { display: block; }
     }
   }
+}
+
+#sidebar-close {
+  color: inherit;
 }
 
 #sidebar-toggle {
