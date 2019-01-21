@@ -18,6 +18,9 @@ Variable that should be available
   <% end %>
   <% if ['Event', 'Material'].include?(resource_type.name) %>
     <%= render partial: 'search/common/facet_sidebar_max_age' %>
+    <% if resource_type.name == 'Event' %>
+      <%= render partial: 'search/common/facet_sidebar_include_expired' %>
+    <% end %>
   <% end %>
   <% resources.facets.select { |f| f.rows.any? }.each do |facet| %>
       <% if IGNORED_FILTERS.include?(facet.field_name.to_s)   %>

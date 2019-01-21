@@ -1,0 +1,18 @@
+<div class="tess-facet">
+  <div class="tess-facet-title">Include expired events?</div>
+  <%
+    exclude_url= url_for(search_and_facet_params.except(:include_expired))
+    include_url  = url_for(search_and_facet_params.merge({ include_expired: true }))
+    opts = [['Yes', include_url], ['No', exclude_url]]
+  %>
+
+  <%= select_tag 'include_expired', options_for_select(opts, params[:include_expired] ? include_url : exclude_url),
+                 id: 'include-expired-select',
+                 class: 'form-control facet-select' %>
+
+  <script>
+      $('#include-expired-select').change(function () {
+          window.location = $(this).val();
+      });
+  </script>
+</div>
