@@ -1,0 +1,22 @@
+<% if event.started? %>
+  <%= content_tag(:span, class: 'event-icon') do %>
+    <%= icon_for(:started, :small) %>
+  <% end %>
+<% elsif event.expired? %>
+  <%= content_tag(:span, class: 'event-icon') do %>
+    <%= icon_for(:expired, :small) %>
+  <% end %>
+<% end %>
+<% if event.for_profit? %>
+  <%= content_tag(:span, class: 'event-icon') do %>
+    <%= icon_for(:for_profit, :small) %>
+  <% end %>
+<% end %>
+<% if event.has_node? -%>
+  <%= content_tag(:span, class: 'event-icon') do %>
+    <%= image_tag 'elixir_logo_orange.png',
+                  :alt => 'Elixir node event',
+                  :title => 'Elixir node event',
+                  :style => 'height: 20px;' %>
+  <% end %>
+<% end -%>

@@ -54,6 +54,8 @@ Rails.application.routes.draw do
   resources :events, concerns: :activities do
     collection do
       get 'count'
+      get 'map'
+      get 'grid'
     end
     member do
       get 'redirect'

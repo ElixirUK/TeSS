@@ -11,12 +11,15 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # Actions that behave like an index page (i.e. some kind of public list of resources)
+  INDEX_LIKE = [:index, :map, :grid, :count]
+
   # Should allow token authentication for API calls
-  acts_as_token_authentication_handler_for User, except: [:index, :show, :embed, :check_exists, :handle_error, :count, :redirect] #only: [:new, :create, :edit, :update, :destroy]
+  acts_as_token_authentication_handler_for User, except: [*INDEX_LIKE, :show, :embed, :check_exists, :handle_error, :redirect] #only: [:new, :create, :edit, :update, :destroy]
 
   # User auth should be required in the web interface as well; it's here rather than in routes so that it
   # doesn't override the token auth, above.
-  before_action :authenticate_user!, except: [:index, :show, :embed, :check_exists, :handle_error, :count, :redirect]
+  before_action :authenticate_user!, except: [*INDEX_LIKE, :show, :embed, :check_exists, :handle_error, :redirect]
   before_action :set_current_user
 
   # Should prevent forgery errors for JSON posts.

@@ -621,8 +621,9 @@ sup {
   font-size: 48px;
 }
 
-.gap {
-  padding: 0px 5px;
+.masonry-brick .event-icon {
+  float: right;
+  padding: 0 5px;
 }
 
 .dropdown-option-delete, a.delete-list-item, a.delete-collaboration, a.delete-internal-resource {

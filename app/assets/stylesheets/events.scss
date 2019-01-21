@@ -39,3 +39,34 @@
   margin-left: 40%;
   padding-top: 100px;
 }
+
+.calendar-date-block{
+  padding: 5px 0;
+  margin: 5px 0;
+
+  h3 {
+    margin: 5px;
+    font-size: 16px;
+  }
+
+  ul {
+    margin: 0;
+
+    li {
+      margin: 5px 0;
+
+      a {
+        font-size: 16px;
+        line-height: 2;
+      }
+    }
+  }
+
+  &.boundary {
+    border-top: 2px solid transparentize($elixir-blue, 0.7);
+  }
+}
+
+.calendar-month-picker {
+  position: relative; /* So datetimepicker displays in correct location */
+}

@@ -1,53 +1,31 @@
-<% if tooltip_titles(event).empty? -%>
-<li class="masonry-brick media-item" -%>
-<% else -%>
-<li class="masonry-brick media-item" data-toggle="tooltip" data-placement="auto" title="<%= tooltip_titles(event) -%>">
-<% end -%>
+<% tooltip_opts = tooltip_titles(event).empty? ? {} : { 'data-toggle' => 'tooltip', 'data-placement' => 'auto', title: tooltip_titles(event) } %>
+
+<%= content_tag(:li, tooltip_opts.merge(class: 'masonry-brick media-item')) do %>
+
   <div id="event-title">
-  <h3 class="media-heading dont-break-out" style="display: inline;">
-    <%= event.title %>
-  </h3>
+    <h3 class="media-heading dont-break-out" style="display: inline;">
+      <%= event.title %>
+    </h3>
     <%= missing_icon(event) if current_user and current_user.is_admin? %>
     <%= scrape_status_icon(event) if current_user and current_user.is_admin? %>
   </div>
+
   <p><%= neatly_printed_date_range(event.start, event.end) %></p>
+
   <% if event.online? %>
-      <%= content_tag(:span, :class=>'pull-right gap') do %>
-          <%= icon_for(:online, :small) %>
-      <% end %>
+    <%= content_tag(:span, :class=>'pull-right gap') do %>
+      <%= icon_for(:online, :small) %>
+    <% end %>
   <% else %>
     <p class="dont-break-out"><%= [event.city, event.country].reject { |field_value| field_value.blank? }.join(", ")%></p>
   <% end %>
 
+  <%= render partial: 'events/partials/event_icons', locals: { event: event } %>
 
-
-  <% if event.started? %>
-      <%= content_tag(:span, :class=>'pull-right gap') do %>
-        <%= icon_for(:started, :small) %>
-      <% end %>
-  <% elsif event.expired? %>
-      <%= content_tag(:span, :class=>'pull-right gap') do %>
-          <%= icon_for(:expired, :small) %>
-      <% end %>
-  <% end %>
-  <% if event.for_profit? %>
-      <%= content_tag(:span, :class=>'pull-right gap') do %>
-          <%= icon_for(:for_profit, :small) %>
-      <% end %>
-  <% end %>
-  <% if event.has_node? -%>
-    <%= content_tag(:span, :class=>'pull-right gap') do %>
-        <%= image_tag 'elixir_logo_orange.png',
-                      :alt => 'Elixir node event',
-                      :title => 'Elixir node event',
-                      :style => 'height: 20px;' %>
-    <% end %>
-  <% end -%>
   <%= link_to '', event, :class=>"media-view" %>
   <%= render :partial => 'events/partials/event_schemaorg', :locals => {:event => event} %>
 
   <% if policy(event).update? && event.edit_suggestion %>
-      <%= render partial: 'common/approve_term_suggestions', locals: { suggestion: event.edit_suggestion } %>
+    <%= render partial: 'common/approve_term_suggestions', locals: { suggestion: event.edit_suggestion } %>
   <% end %>
-</li>
-
+<% end %>

@@ -1,0 +1,31 @@
+<%
+  date = Date.parse("#{params[:month]}-01")
+  next_month = date.next_month
+  prev_month = date.prev_month
+%>
+<nav>
+  <ul class="pager">
+    <li class="previous">
+      <%= link_to(search_and_facet_params.merge(month: prev_month.strftime("%Y-%m"))) do %>
+        <span aria-hidden="true">&larr;</span>
+        <%= prev_month.strftime("%B") %>
+        <%= prev_month.strftime("%Y") if prev_month.month == 12 %>
+      <% end %>
+    </li>
+    <li>
+      <span class="btn btn-default calendar-month-picker" data-calendar-month-picker="true" data-calendar-month-facet-url="<%= search_and_facet_params.merge(month: 'xxxxxx').to_query.html_safe -%>">
+        <i class="fa fa-calendar"></i>
+        <%= Date.parse("#{params[:month]}-01").strftime("%B %Y") %>
+        <i class="fa fa-caret-down"></i>
+        <%= text_field_tag(nil, params[:month], style: 'display: none;') %>
+      </span>
+    </li>
+    <li class="next">
+      <%= link_to(search_and_facet_params.merge(month: next_month.strftime("%Y-%m"))) do %>
+        <%= next_month.strftime("%B") %>
+        <%= next_month.strftime("%Y") if next_month.month == 1 %>
+        <span aria-hidden="true">&rarr;</span>
+      <% end %>
+    </li>
+  </ul>
+</nav>

@@ -1180,7 +1180,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'Filters facet parameters correctly' do
-    get :index, params: { q: 'search',
+    get :grid, params: { q: 'search',
                           id: 'what am i doing',
                           keywords: 'foo',
                           fish: 'not a valid parameter',
@@ -1195,5 +1195,24 @@ class EventsControllerTest < ActionController::TestCase
 
     # Search params
     assert_equal 'search', assigns(:search_params)
+  end
+
+  test 'includes default month facet when viewing calendar' do
+    get :index
+
+    assert_equal 1, assigns(:facet_params).keys.length
+    assert_equal Date.today.strftime('%Y-%m'), assigns(:facet_params)['month']
+  end
+
+  test 'map view of index' do
+    get :map
+
+    assert_response :success
+  end
+
+  test 'grid view of index' do
+    get :grid
+
+    assert_response :success
   end
 end

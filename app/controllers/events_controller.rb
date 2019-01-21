@@ -2,7 +2,8 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy, :update_packages, :add_term, :reject_term,
                                    :redirect, :report, :update_report, :add_data, :reject_data]
   before_action :set_breadcrumbs
-  before_action :disable_pagination, only: :index, if: lambda { |controller| controller.request.format.ics? or controller.request.format.csv? }
+  before_action :disable_pagination, only: :index, if: -> { request.format.ics? || request.format.csv? }
+  before_action :default_month, only: :index, if: -> { request.format.html? }
 
   include SearchableIndex
   include ActionView::Helpers::TextHelper
@@ -18,6 +19,20 @@ class EventsController < ApplicationController
       format.html
       format.csv
       format.ics
+    end
+  end
+
+  def map
+    @view = 'map'
+    respond_to do |format|
+      format.html { render :index }
+    end
+  end
+
+  def grid
+    @view = 'grid'
+    respond_to do |format|
+      format.html { render :index }
     end
   end
 
@@ -188,5 +203,9 @@ class EventsController < ApplicationController
 
   def disable_pagination
     params[:per_page] = 2 ** 10
+  end
+
+  def default_month
+    params[:month] ||= Date.today.strftime('%Y-%m')
   end
 end

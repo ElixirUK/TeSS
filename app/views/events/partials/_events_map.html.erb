@@ -1,30 +1,45 @@
-<div style="width: 100%; height: 750px; margin-top: 10px; display: none" id="map-canvas"></div>
-<div id='map-loading-screen'>
-  <%= image_tag('ajax-loader2.gif') %>
+<div id="map">
+  <div id="map-count" class="search-results-count"></div>
+  <small style="float:right ">Note, this map only displays events that have geolocation information in TeSS.<br>
+    For the complete list of events in TeSS, click the grid tab.</small>
+  <div id="map-content">
+    <div style="width: 100%; height: 750px; margin-top: 10px; display: none" id="map-canvas"></div>
+    <div id='map-loading-screen'>
+      <%= image_tag('ajax-loader2.gif') %>
+    </div>
+  </div>
 </div>
 
 <script>
-function initializeMap() {
-    $('#map-canvas').hide();
-    $('#map-loading-screen').fadeIn();
+    var loadedMapScript = false;
 
-    $.ajax({
-        type: 'GET',
-        url: '<%= events_url(search_and_facet_params.merge(format: :json_api, per_page: 5000)).html_safe -%>',
-        dataType: 'json',
-    }).done(function (res) {
-        plotEvents(res.data)
-    }).fail(function (error) {
-        console.log("Error: " + error);
+    function initializeMap() {
+        $('#map-canvas').hide();
+        $('#map-loading-screen').fadeIn();
+
+        $.ajax({
+            type: 'GET',
+            url: '<%= events_url(search_and_facet_params.merge(format: :json_api, per_page: 5000)).html_safe -%>',
+            dataType: 'json',
+        }).done(function (res) {
+            plotEvents(res.data)
+        }).fail(function (error) {
+            console.log("Error: " + error);
+        });
+
+        var mapOptions = {
+            zoom: 10,
+            center: new google.maps.LatLng(0, 0)
+        };
+
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        loadedMapScript = true;
+    }
+
+    document.addEventListener("turbolinks:load", function() {
+        if (!loadedMapScript) {
+            initializeMap();
+        }
     });
-
-    var mapOptions = {
-        zoom: 10,
-        center: new google.maps.LatLng(0, 0)
-    };
-
-    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-    loadedMapScript = true;
-}
 </script>

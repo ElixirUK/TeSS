@@ -237,6 +237,32 @@ document.addEventListener("turbolinks:load", function() {
 
     $("a[rel~=popover], .has-popover").popover();
     $("a[rel~=tooltip], .has-tooltip").tooltip();
+
+    // Calendar month pickers on events calendar page
+    $('[data-calendar-month-picker]').each(function () {
+        var btn = $(this);
+        var picker = $('input', btn);
+        var url = btn.data('calendarMonthFacetUrl');
+
+        picker.datetimepicker({
+            format: 'YYYY-MM'
+        }).on('dp.change', function (e) {
+            Turbolinks.visit('?' + url.replace('xxxxxx', e.date.format('YYYY-MM')));
+        }).on('dp.hide', function () { // This is a hack to fix a bug where the view mode changes after closing
+            setTimeout(function(){
+                picker.data('DateTimePicker').viewMode('months');
+            },1);
+        });
+
+        btn.click(function () {
+            picker.datetimepicker('toggle');
+        })
+    });
+
+
+    $('#calendar-month-picker-btn').click(function () {
+        $('#calendar-month-picker').datetimepicker('show');
+    });
 });
 
 function truncateWithEllipses(text, max)

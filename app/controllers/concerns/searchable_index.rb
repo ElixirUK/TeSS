@@ -3,8 +3,8 @@ module SearchableIndex
 
   included do
     attr_reader :facet_fields, :search_params, :facet_params, :page, :sort_by, :index_resources
-    before_action :set_params, only: [:index, :count]
-    before_action :fetch_resources, only: [:index, :count]
+    before_action :set_params, only: ApplicationController::INDEX_LIKE
+    before_action :fetch_resources, only: ApplicationController::INDEX_LIKE
 
     helper 'search'
   end

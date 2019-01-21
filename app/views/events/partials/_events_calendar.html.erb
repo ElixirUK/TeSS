@@ -1,38 +1,55 @@
-<script type="text/javascript">
-    var loadedCalendarScript = 0;
+<% content_for :pagination do %>
+  <%= render 'events/partials/calendar_pager', month: params[:month] %>
+<% end %>
 
-    function setupCalendarScript(){
-        loadedCalendarScript = 1;
-        google.charts.load("current", {packages:["calendar"]});
-        google.charts.setOnLoadCallback(drawChart);
-    }
+<div id="calendar">
+  <%= yield :pagination %>
 
-    function drawChart() {
-        if (!loadedCalendarScript){
-            setupCalendarScript();
-        }
-        <% c = {} %>
-        <% events.each{|x| c[x.start.to_s].nil? ? c[x.start.to_s] = 1 : c[x.start.to_s] += 1 } %>
-        var dataTable = new google.visualization.DataTable();
-        dataTable.addColumn({ type: 'date', id: 'Date' });
-        dataTable.addColumn({ type: 'number', id: 'Count' });
-        dataTable.addRows([
-                <% c.each do |date, count| %>
-                  [new Date('<%=date%>'), <%=count%>],
+  <% grouped_by_date = @events.select(&:start).group_by { |e| e.start.to_date } %>
+  <% if grouped_by_date.keys.any? %>
+    <% past = grouped_by_date.keys.first < Date.today %>
+    <% grouped_by_date.each do |date, events| %>
+      <%# The following is to display a boundary between past dates and future dates %>
+      <% if past && date >= Date.today %>
+        <% draw_boundary = true %>
+        <% past = false %>
+      <% end %>
+      <%= content_tag(:div, class: "calendar-date-block#{draw_boundary ? ' boundary' : ''}") do %>
+        <h3><%= date.strftime('%A, %-d %B') %></h3>
+        <ul>
+          <% events.each do |event| %>
+            <li>
+              <%= link_to event.title, event %><%= render partial: 'events/partials/event_icons', locals: { event: event } %><br/>
+              <% if event.online? %>
+                <span class="muted">
+                  <i class="fa fa-desktop" aria-hidden="true"></i>
+                  Online
+                </span>
+              <% else %>
+                <% loc = [event.city, event.country].reject { |field_value| field_value.blank? }.join(", ")%>
+                <% unless loc.blank? %>
+                <span class="muted">
+                  <i class="fa fa-map-marker"></i>
+                  <%= loc %>
+                </span>
                 <% end %>
-        ]);
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  <% else %>
+    <span class="muted">No events found for this month.</span>
+    <% unless params[:include_expired] %>
+      <div>
+        <span class="muted">Expired events are currently hidden.</span>
+        <%= link_to search_and_facet_params.merge(include_expired: true), class: 'btn btn-default btn-xs' do %>
+          <i class="fa fa-hourglass-end"></i> Show past events
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 
-        var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
-
-        var options = {
-            title: "Life Science Events",
-            height: 350,
-        };
-
-        chart.draw(dataTable, options);
-    }
-</script>
-
-
-<div id="calendar_basic" style="width: 100%; height: 350px;"></div>
-
+  <%= yield :pagination %>
+</div>
