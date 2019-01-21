@@ -1,5 +1,4 @@
-
-.tess-facets {
+.tess-facets, .tess-active-facets {
   a.tess-facet-row {
     display: inline-block;
     color: inherit;
@@ -31,6 +30,20 @@
     margin-left: 5px;
     font-weight: bold
   }
+
+  .tess-active-facet {
+    margin-bottom: 5px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    a.tess-facet-row {
+      font-size: smaller;
+      padding: 0 5px;
+      border-radius: 4px;
+    }
+  }
+
   a.tess-facet-row span {
     pointer-events: none
   }

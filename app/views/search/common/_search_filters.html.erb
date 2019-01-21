@@ -7,31 +7,30 @@ Globals
 %>
 
 <%# FILTERS APPLIED %>
-<% @facet_params.except(*Facets::HIDDEN).each_with_index do |(category, value), i| %>
-  <p>
-    <% if i > 0 && (@facet_params.size > 1) %>
-      ...and
-    <% end %>
-    <b><%= t("facets.titles.#{category}", default: category.humanize) %></b>:
-    <% if value.is_a?(Array)%>
-      <% value.each_with_index do |val, j| %>
-              <span class="active-filters">
-                <%= remove_filter_link(category, val, {:class =>"label label-default filter-button"})%>
-                <% if j < value.size - 1 %>
-                  or
-                <% end %>
-              </span>
+<div class="tess-active-facets">
+  <% @facet_params.except(*Facets::HIDDEN).each_with_index do |(category, value), i| %>
+    <div class="tess-active-facet">
+      <% if i > 0 && (@facet_params.size > 1) %>
+        ...and
       <% end %>
-    <% else %>
-      <span class="active-filters"><%= remove_filter_link(category, value, {:class =>"label label-default filter-button"})%></span>
-    <% end %>
-  </p>
-<% end %>
+      <% title = t("facets.titles.#{category}", default: category.humanize).downcase %>
+      <% value = Array(value) %>
+      <% multi = value.length > 1 %>
+      <strong><%= multi ? title : title.singularize %></strong>:
+      <% value.each do |val| %>
+        <%= remove_filter_link(category, val, { class: 'tess-facet-row active' })%>
+        <% if multi %>
+          or
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
 
 <%# The search term %>
-<% unless params[:q].blank? %>
-  <p>
-    <b>Search query</b>:
-    <span class="active-filters"><%= remove_filter_link('q', params[:q], { class: "label label-default filter-button" })%></span>
-  </p>
-<% end %>
+  <% unless params[:q].blank? %>
+    <span class="tess-active-facet">
+      <strong>Search query</strong>:
+      <%= remove_filter_link('q', params[:q], { class: 'tess-facet-row active' })%>
+    </span>
+  <% end %>
+</div>
