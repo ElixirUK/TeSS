@@ -85,4 +85,24 @@
     border-radius: 0;
     border-width: 1px 0 0 0;
   }
+
+  .searchbox-wrapper {
+    display: flex;
+    border-top: 1px solid #ccc;
+  }
+
+  .searchbox-field {
+    border: none;
+    background: transparent;
+    padding: 10px 10px 10px 10px;
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .searchbox-btn {
+    border: none;
+    background: transparent;
+    padding: 5px 5px;
+    flex-shrink: 0;
+  }
 }

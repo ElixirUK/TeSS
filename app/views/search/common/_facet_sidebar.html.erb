@@ -12,6 +12,7 @@ Variable that should be available
 </h3>
 
 <div class="tess-facets">
+  <%= render partial: 'search/common/facet_sidebar_search' %>
   <% if current_user && (current_user.is_curator? || current_user.is_admin?) && resource_type.method_defined?(:last_scraped) %>
     <%= render partial: 'search/common/facet_sidebar_curation' %>
   <% end %>

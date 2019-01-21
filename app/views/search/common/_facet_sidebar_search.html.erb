@@ -1,0 +1,14 @@
+<div class="tess-facet">
+  <div class="tess-facet-title">Search</div>
+
+  <% placeholder = "Search" + (params[:controller]=='search' ? '...' : " " + params[:controller].humanize(capitalize: false) + "...") %>
+
+  <%= form_tag polymorphic_path(controller_name), method: :get, enforce_utf8: false do %>
+    <div class="searchbox-wrapper">
+      <%= text_field_tag 'q', params[:q], class: 'searchbox-field', placeholder: placeholder %>
+      <button type="submit" class="searchbox-btn">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  <% end %>
+</div>
