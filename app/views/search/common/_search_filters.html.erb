@@ -15,11 +15,10 @@ Globals
       <% end %>
       <% title = t("facets.titles.#{category}", default: category.humanize).downcase %>
       <% value = Array(value) %>
-      <% multi = value.length > 1 %>
-      <strong><%= multi ? title : title.singularize %></strong>:
-      <% value.each do |val| %>
+      <strong><%= value.length > 1 ? title : title.singularize %></strong>:
+      <% value.each_with_index do |val, j| %>
         <%= remove_filter_link(category, val, { class: 'tess-facet-row active' })%>
-        <% if multi %>
+        <% if j < value.size - 1 %>
           or
         <% end %>
       <% end %>

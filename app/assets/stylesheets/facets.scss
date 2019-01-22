@@ -12,23 +12,23 @@
   }
 
   a.tess-facet-row:hover {
-    background-color: rgba(0, 84, 114, 0.2)
+    background-color: #e6e6e6;
   }
 
   a.tess-facet-row.active {
-    background-color: rgba(0, 84, 114, 0.7);
+    background-color: $grey-blue;
     color: white
   }
 
   a.tess-facet-row.active:hover {
-    background-color: rgba(0, 84, 114, 0.4)
+    background-color: $blue;
   }
 
   a.tess-facet-row.active:after {
     content: "×";
     float: right;
     margin-left: 5px;
-    font-weight: bold
+    font-weight: bold;
   }
 
   .tess-active-facet {
@@ -45,28 +45,28 @@
   }
 
   a.tess-facet-row span {
-    pointer-events: none
+    pointer-events: none;
   }
 
   .tess-facet {
-    border-bottom: 1px solid rgba(77, 72, 72, 0.2)
+    border-bottom: 1px solid #ccc;
   }
 
   .tess-facet-title {
     font-weight: bold;
     padding: 7px 5px;
     background-color: #efefef;
-    font-size: small
+    font-size: small;
   }
 
   ul > li a.tess-facet-row {
-    border-top: 1px solid rgba(77, 72, 72, 0.2)
+    border-top: 1px solid #ccc;
   }
 
   ul {
     list-style: none;
     padding: 0;
-    margin: 0
+    margin: 0;
   }
 
   ul li.hidden {
@@ -75,23 +75,23 @@
 
   ul li a.tess-facet-row {
     display: flex;
-    padding: 7px 10px
+    padding: 7px 10px;
   }
 
   ul li a.tess-facet-row span {
-    display: inline-block
+    display: inline-block;
   }
 
   ul li a.tess-facet-row .tess-facet-row-value {
     flex-grow: 1;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden
+    overflow: hidden;
   }
 
   ul li a.tess-facet-row .tess-facet-row-count {
     flex-shrink: 0;
-    color: #4d4848
+    color: #4d4848;
   }
 
   .facet-select {
