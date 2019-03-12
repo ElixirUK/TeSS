@@ -2,6 +2,13 @@
 
 <script>
 
+  $("#concept_map_title").keyup(function(e) {
+      var new_title = '<i class="main"></i> ' + e.target.value;
+      $(".workflow-diagram-sidebar-title").text('')
+
+      $(".workflow-diagram-sidebar-title").append(new_title)
+  });
+
   var wf = new Workflow('#app', {
       title: "<%= workflow.title %>",
       editable: <%= editable %>,
