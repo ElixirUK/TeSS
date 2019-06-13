@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 5.2.2.1'
 
 gem "bootsnap", ">= 1.1.0", require: false # New Rails 5.2 default gem
 
@@ -33,11 +33,11 @@ gem 'public_activity', '~> 1.6.1'
 
 gem 'simple_token_authentication', '~> 1.0'
 
-gem 'bootstrap-sass', '~> 3.3.7'
+gem 'bootstrap-sass', '>= 3.4.1'
 
 gem 'font-awesome-sass', '~> 4.7.0'
 
-gem 'friendly_id', '~> 5.1.0'
+gem 'friendly_id', '~> 5.2.4'
 
 gem 'sunspot_rails', '~> 2.2.7'
 
@@ -82,8 +82,8 @@ gem 'simple_form'
 gem 'redcarpet', '~> 3.4.0'
 
 # Gem for paginating search results
-gem 'will_paginate', '~> 3.1.5'
-gem 'will_paginate-bootstrap', '~> 1.0.1'
+gem 'will_paginate'
+#gem 'will_paginate-bootstrap', '~> 1.0.1'
 
 # Gem for authorisation
 gem 'pundit', '~> 1.1.0'
@@ -144,7 +144,7 @@ end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'webmock', '~> 2.1.0'
+  gem 'webmock', '~> 3.4.2'
   gem 'byebug'
   gem 'simplecov'
   gem 'rubocop'
