@@ -117,6 +117,17 @@
                     <%= @event.host_institutions.join(', ') %></p>
               <% end %>
 
+
+
+              <% if @event.learning_outcomes and !@event.learning_outcomes.empty? %>
+                  <%  @event.learning_outcomes.each do |learning_outcome| %>
+                      <%= learning_outcome.noun %>
+                      <%= learning_outcome.verb %>
+                      <br>
+                  <% end %>
+              <% end %>
+
+
               <% if @event.start and !@event.start.blank? %>
                   <p><strong>Start:</strong>
                     <%= @event.start.strftime('%A, %d %B %Y @ %H:%M') %></p>

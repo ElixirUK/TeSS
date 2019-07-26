@@ -45,6 +45,9 @@
 
     <%= f.input :end, as: :datetime_picker, field_lock: true %>
 
+    <%= text_field_tag "event[learning_outcomes_attributes][0][noun]", "", :class => 'form-control', :placeholder => 'Noun' %>
+    <%= text_field_tag "event[learning_outcomes_attributes][0][verb]", "", :class => 'form-control', :placeholder => 'Verb' %>
+
     <div class="address_content">
       <%= render partial: 'events/partials/address_finder', locals: { f: f } %>
     </div>
