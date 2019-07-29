@@ -16,7 +16,12 @@
 </script>
 <%= simple_form_for @event, html: { id: 'event_form' }  do |f| %>
 
+
     <%= render partial: 'common/error_summary', locals: { resource: @event } %>
+
+    <% if @user %>
+        Hello Matey
+    <% end %>
 
     <div class="form-group">
       <%= label_tag('type')%> <br/>
@@ -45,8 +50,22 @@
 
     <%= f.input :end, as: :datetime_picker, field_lock: true %>
 
-    <%= text_field_tag "event[learning_outcomes_attributes][0][noun]", "", :class => 'form-control', :placeholder => 'Noun' %>
-    <%= text_field_tag "event[learning_outcomes_attributes][0][verb]", "", :class => 'form-control', :placeholder => 'Verb' %>
+
+    <div class="form-group" id="learning-outcomes">
+      <%= f.label :learning_outcomes %>
+      <%= f.field_lock :learning_outcomes %>
+
+      <div id="learning-outcomes-list">
+        <% @event.learning_outcomes.each_with_index do |learning_outcome, index| %>
+            <%= render partial: 'common/learning_outcome_form',
+                       locals: { f: f, form_name: 'event', index: index, learning_outcome: learning_outcome} %>
+        <% end %>
+      </div>
+
+      <a href="#" id="add-learning-outcomes-btn" class="btn btn-info">
+        <i class="fa fa-plus"></i> Add learning outcome
+      </a>
+    </div>
 
     <div class="address_content">
       <%= render partial: 'events/partials/address_finder', locals: { f: f } %>
@@ -133,4 +152,9 @@
 <div id="external-resource-template" style="display: none">
   <%= render partial: 'common/external_resource_form',
              locals: { form_name: 'event', external_resource: ExternalResource.new } %>
+</div>
+
+<div id="learning-outcomes-template" style="display: none">
+  <%= render partial: 'common/learning_outcome_form',
+             locals: { form_name: 'event', learning_outcome: LearningOutcome.new } %>
 </div>

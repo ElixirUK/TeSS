@@ -179,7 +179,7 @@ class EventsController < ApplicationController
                                   {:target_audience => []}, {:eligibility => []},
                                   {:host_institutions => []}, :capacity, :contact,
                                   external_resources_attributes: [:id, :url, :title, :_destroy], material_ids: [],
-                                  locked_fields: [], learning_outcomes_attributes: [:noun, :verb] )
+                                  locked_fields: [], learning_outcomes_attributes: [:id, :noun, :verb, :_destroy] )
   end
 
   def event_report_params

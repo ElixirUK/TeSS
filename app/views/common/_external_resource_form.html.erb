@@ -16,7 +16,7 @@
     <%= text_field_tag "#{field_name_prefix}[url]", external_resource.url, :class => 'form-control external-resource-url', :placeholder => 'URL' %>
   </div>
 
-  <label class="delete-external-resource-btn">
+  <label class="delete-external-resource-btn delete-multi-add-resource-btn">
     &times;
     <%= hidden_field_tag "#{field_name_prefix}[_destroy]", '0', :autocomplete => 'off' %>
     <%= check_box_tag "#{field_name_prefix}[_destroy]", '1', false, :class => 'destroy-attribute', :autocomplete => 'off' %>

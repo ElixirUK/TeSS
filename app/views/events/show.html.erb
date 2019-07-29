@@ -107,6 +107,21 @@
                   </script>
               <% end %>
 
+              <% if @event.learning_outcomes and !@event.learning_outcomes.empty? %>
+                  <p><strong>You will be able to:</p></strong>
+                  <ul>
+                  <%  @event.learning_outcomes.each do |learning_outcome| %>
+                      <li>
+                        <%= learning_outcome.verb %>
+                        <%= learning_outcome.noun %>
+                      </li>
+                      <br>
+                  <% end %>
+                  </ul>
+              <% end %>
+
+              
+
               <% if @event.organizer and !@event.organizer.blank? %>
                   <p><strong>Organizer:</strong>
                     <%= @event.organizer %></p>
@@ -118,14 +133,6 @@
               <% end %>
 
 
-
-              <% if @event.learning_outcomes and !@event.learning_outcomes.empty? %>
-                  <%  @event.learning_outcomes.each do |learning_outcome| %>
-                      <%= learning_outcome.noun %>
-                      <%= learning_outcome.verb %>
-                      <br>
-                  <% end %>
-              <% end %>
 
 
               <% if @event.start and !@event.start.blank? %>
