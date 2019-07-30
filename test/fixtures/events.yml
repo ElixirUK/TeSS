@@ -91,6 +91,13 @@ event_with_external_resource:
   user: scraper_user
   content_provider: goblet
 
+event_with_learning_outcomes:
+  title: Learning Outcome Event
+  url: http://myurl.com
+  description: 'this is my event'
+  user: scraper_user
+  content_provider: goblet
+
 event_with_no_start:
   title: No Start Time
   url: http://myurl.com
