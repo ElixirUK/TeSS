@@ -249,6 +249,13 @@ $(document).on('click', '.delete-list-item', function () {
     return false;
 });
 
+$(document).on('click', '.show-suggested-resources', function () {
+    var suggested_resources = $(this).children('.suggested-resources');
+    suggested_resources.toggleClass("hidden");
+    return false;
+});
+
+
 $(document).on('shown.bs.tab', '[href="#activity_log"]', function () {
     var tabPane = $('#activity_log');
 

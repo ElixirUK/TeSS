@@ -5,4 +5,10 @@ class LearningOutcome < ApplicationRecord
 
   validates :noun, controlled_vocabulary: { dictionary: NounDictionary.instance }
   validates :verb, controlled_vocabulary: { dictionary: VerbDictionary.instance }
+
+  def matching_prerequisites
+    return Prerequisite.where(verb: self.verb, noun: self.noun)
+               .collect{|prereq| prereq.resource}.uniq
+               .reject{|resource| resource == self.resource}
+  end
 end

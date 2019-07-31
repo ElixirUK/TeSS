@@ -76,9 +76,20 @@
                 <ul>
                   <%  @material.prerequisites.each do |prerequisite| %>
                       <li>
+                        <div class="show-suggested-resources">
                         <%= prerequisite.verb %>
                         <%= prerequisite.noun %>
+                          <div class="hidden suggested-resources">
+                            <em>These resources may help you master this pre-requisite</em>
+                            <ul>
+                            <% prerequisite.matching_learning_outcomes.each do |resource| %>
+                                <li><%= link_to "#{resource.title} (#{resource.class})", resource %></li>
+                            <% end %>
+                            </ul>
+                          </div>
+                        </div>
                       </li>
+
                   <% end %>
                 </ul>
             <% end %>
