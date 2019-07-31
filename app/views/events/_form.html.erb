@@ -21,7 +21,7 @@
 
 
     <% if policy(@event).add_learning_statements? and controller.action_name == 'edit' %>
-        <%= render partial: 'events/partials/learning_statements', locals: {f: f} %>
+        <%= render partial: 'common/learning_statements', locals: {f: f, resource: @event} %>
     <% end %>
 
     <div class="form-group">
@@ -57,7 +57,7 @@
     </div>
 
     <% if policy(@event).add_learning_statements? and ['new', 'create'].include? controller.action_name %>
-        <%= render partial: 'events/partials/learning_statements', locals: {f: f} %>
+        <%= render partial: 'common/learning_statements', locals: {f: f, resource: @event} %>
     <% end %>
 
     <%= f.input :organizer, field_lock: true %>

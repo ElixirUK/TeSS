@@ -57,6 +57,34 @@
                   <p><%= render_markdown(@material.short_description)%></p>
               <% end %>
             </div>
+
+
+            <% if @material.learning_outcomes and !@material.learning_outcomes.empty? %>
+                <p><strong>After attending this course, you will be able to:</strong></p>
+                <ul>
+                  <%  @material.learning_outcomes.each do |learning_outcome| %>
+                      <li>
+                        <%= learning_outcome.verb %>
+                        <%= learning_outcome.noun %>
+                      </li>
+                  <% end %>
+                </ul>
+            <% end %>
+
+            <% if @material.prerequisites and !@material.prerequisites.empty? %>
+                <p><strong>Before attending this course, you should be able to:</strong></p>
+                <ul>
+                  <%  @material.prerequisites.each do |prerequisite| %>
+                      <li>
+                        <%= prerequisite.verb %>
+                        <%= prerequisite.noun %>
+                      </li>
+                  <% end %>
+                </ul>
+            <% end %>
+
+
+
             <div class="dont-break-out">
               <%= render partial: 'common/extra_metadata', locals: { resource: @material } %>
 

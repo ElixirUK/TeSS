@@ -52,6 +52,20 @@ material_with_external_resource:
   user: regular_user
   content_provider: goblet
 
+material_with_learning_outcomes:
+  title: Learning Outcome Material
+  url: http://myurl.com/123
+  short_description: 'this is my material'
+  user: regular_user
+  content_provider: goblet
+
+material_with_prerequisites:
+  title: Prerequisite Material
+  url: http://myurl.com/123
+  short_description: 'this is my material'
+  user: regular_user
+  content_provider: goblet
+
 material_with_suggestions:
   title: Material with suggestions
   url: http://training.com/suggestions

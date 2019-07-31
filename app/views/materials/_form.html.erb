@@ -2,6 +2,10 @@
 
     <%= render partial: 'common/error_summary', locals: { resource: @material } %>
 
+    <% if policy(@material).add_learning_statements? and ['edit'].include? controller.action_name %>
+        <%= render partial: 'common/learning_statements', locals: {f: f, resource: @material} %>
+    <% end %>
+
     <%# Necessary to allow removal of all field locks %>
     <%= hidden_field_tag 'material[locked_fields][]', '' %>
 
@@ -12,6 +16,10 @@
     <%= f.input :short_description, as: :markdown_area, input_html: { rows: '5' }, field_lock: true %>
 
     <%= f.input :long_description, as: :markdown_area, input_html: { rows: '10' }, field_lock: true %>
+
+    <% if policy(@material).add_learning_statements? and ['new', 'create'].include? controller.action_name %>
+        <%= render partial: 'common/learning_statements', locals: {f: f, resource: @material} %>
+    <% end %>
 
     <%= f.input :doi, field_lock: true %>
 
@@ -77,6 +85,17 @@
   <%= render partial: 'common/external_resource_form',
              locals: { form_name: 'material', external_resource: ExternalResource.new } %>
 </div>
+
+<div id="learning-outcomes-template" style="display: none">
+  <%= render partial: 'common/learning_outcome_form',
+             locals: { form_name: 'material', learning_outcome: LearningOutcome.new } %>
+</div>
+
+<div id="prerequisites-template" style="display: none">
+  <%= render partial: 'common/prerequisite_form',
+             locals: { form_name: 'material', prerequisite: Prerequisite.new } %>
+</div>
+
 
 
 <script type="text/javascript">
