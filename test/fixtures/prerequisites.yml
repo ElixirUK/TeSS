@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+success_prereq_material:
+  resource: material_with_prerequisites (Material)
+  verb: find
+  noun: algorithms
+
+
+success_prereq_event:
+  resource: event_with_prerequisites (Event)
+  verb: big data
+  noun: interpret
+
+
+failed_prereq_material:
+  resource: material_with_prerequisites (Material)
+  verb: Crouching
+  noun: Tiger
+
+
+failed_prereq_event:
+  resource: event_with_prerequisites (Event)
+  verb: Bobbing
+  noun: Duck
+

@@ -15,7 +15,7 @@ class Event < ApplicationRecord
   include HasSuggestions
   include IdentifiersDotOrg
   include HasFriendlyId
-  include HasLearningOutcomes
+  include HasLearningStatements
 
   before_save :set_default_times, :check_country_name
   before_save :geocoding_cache_lookup, if: :address_will_change?

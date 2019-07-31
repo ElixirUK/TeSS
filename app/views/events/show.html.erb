@@ -108,18 +108,28 @@
               <% end %>
 
               <% if @event.learning_outcomes and !@event.learning_outcomes.empty? %>
-                  <p><strong>You will be able to:</p></strong>
+                  <p><strong>After attending this course, you will be able to:</strong></p>
                   <ul>
                   <%  @event.learning_outcomes.each do |learning_outcome| %>
                       <li>
                         <%= learning_outcome.verb %>
                         <%= learning_outcome.noun %>
                       </li>
-                      <br>
                   <% end %>
                   </ul>
               <% end %>
 
+              <% if @event.prerequisites and !@event.prerequisites.empty? %>
+                  <p><strong>Before attending this course, you should be able to:</strong></p>
+                  <ul>
+                    <%  @event.prerequisites.each do |prerequisite| %>
+                        <li>
+                          <%= prerequisite.verb %>
+                          <%= prerequisite.noun %>
+                        </li>
+                    <% end %>
+                  </ul>
+              <% end %>
               
 
               <% if @event.organizer and !@event.organizer.blank? %>

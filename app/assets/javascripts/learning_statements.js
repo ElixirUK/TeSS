@@ -1,7 +1,5 @@
-var type='learning-outcomes';//or 'prerequisites'
-
-var LearningOutcomes = {
-    add: function (noun, verb) {
+var LearningStatement = {
+    add: function (noun, verb, type){
         var newForm = $('#' + type + '-template').clone().html();
 
         // Ensure the index of the new form is 1 greater than the current highest index, to prevent collisions
@@ -32,8 +30,39 @@ var LearningOutcomes = {
     }
 };
 
+
+var LearningOutcomes = {
+    add: function (noun, verb) {
+        LearningStatement.add(noun, verb, 'learning-outcomes');
+        return false;
+    },
+    delete: function() {
+        LearningStatement.delete('learning-outcomes');
+    }
+};
+
+
+var Prerequisites = {
+    add: function (noun, verb) {
+        LearningStatement.add(noun, verb, 'prerequisites');
+        return false;
+    },
+    delete: function() {
+        LearningStatement.delete('prerequisites');
+    }
+};
+
+
+
+
 document.addEventListener("turbolinks:load", function() {
     $('#learning-outcomes')
         .on('click', '#add-learning-outcomes-btn', LearningOutcomes.add)
         .on('change', '.delete-learning-outcomes-btn input.destroy-attribute', LearningOutcomes.delete);
+});
+
+document.addEventListener("turbolinks:load", function() {
+    $('#prerequisites')
+        .on('click', '#add-prerequisites-btn', Prerequisites.add)
+        .on('change', '.delete-prerequisites-btn input.destroy-attribute', Prerequisites.delete);
 });

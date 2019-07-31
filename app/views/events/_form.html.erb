@@ -19,8 +19,9 @@
 
     <%= render partial: 'common/error_summary', locals: { resource: @event } %>
 
-    <% if @user %>
-        Hello Matey
+
+    <% if policy(@event).add_learning_statements? and controller.action_name == 'edit' %>
+        <%= render partial: 'events/partials/learning_statements', locals: {f: f} %>
     <% end %>
 
     <div class="form-group">
@@ -51,25 +52,13 @@
     <%= f.input :end, as: :datetime_picker, field_lock: true %>
 
 
-    <div class="form-group" id="learning-outcomes">
-      <%= f.label :learning_outcomes %>
-      <%= f.field_lock :learning_outcomes %>
-
-      <div id="learning-outcomes-list">
-        <% @event.learning_outcomes.each_with_index do |learning_outcome, index| %>
-            <%= render partial: 'common/learning_outcome_form',
-                       locals: { f: f, form_name: 'event', index: index, learning_outcome: learning_outcome} %>
-        <% end %>
-      </div>
-
-      <a href="#" id="add-learning-outcomes-btn" class="btn btn-info">
-        <i class="fa fa-plus"></i> Add learning outcome
-      </a>
-    </div>
-
     <div class="address_content">
       <%= render partial: 'events/partials/address_finder', locals: { f: f } %>
     </div>
+
+    <% if policy(@event).add_learning_statements? and ['new', 'create'].include? controller.action_name %>
+        <%= render partial: 'events/partials/learning_statements', locals: {f: f} %>
+    <% end %>
 
     <%= f.input :organizer, field_lock: true %>
 
@@ -157,4 +146,9 @@
 <div id="learning-outcomes-template" style="display: none">
   <%= render partial: 'common/learning_outcome_form',
              locals: { form_name: 'event', learning_outcome: LearningOutcome.new } %>
+</div>
+
+<div id="prerequisites-template" style="display: none">
+  <%= render partial: 'common/prerequisite_form',
+             locals: { form_name: 'event', prerequisite: Prerequisite.new } %>
 </div>
