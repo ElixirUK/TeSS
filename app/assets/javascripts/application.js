@@ -250,7 +250,7 @@ $(document).on('click', '.delete-list-item', function () {
 });
 
 $(document).on('click', '.show-suggested-resources', function () {
-    var suggested_resources = $(this).children('.suggested-resources');
+    var suggested_resources = $(this).siblings('.suggested-resources');
     suggested_resources.toggleClass("hidden");
     return false;
 });

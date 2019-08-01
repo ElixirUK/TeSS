@@ -981,6 +981,7 @@ input[type=checkbox].field-lock + label:before, .field-lock-example-open {
 
 .show-suggested-resources{
   text-color: blue;
+  cursor: pointer;
 }
 
 .hidden{
@@ -991,5 +992,4 @@ input[type=checkbox].field-lock + label:before, .field-lock-example-open {
   background-color: aliceblue;
   padding: 20px;
   border-radius: 20px;
-  z-index: 999999;
 }
