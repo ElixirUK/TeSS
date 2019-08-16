@@ -1,5 +1,7 @@
 module CuratorsHelper
 
+  CURATOR_TASK_INFO = "Create a curator task to help improve the quality of the data in the TeSS system"
+
   def print_curation_action(action)
     resource, action = action.split('.')
     if action

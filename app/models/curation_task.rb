@@ -5,7 +5,10 @@ class CurationTask < ApplicationRecord
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :completed_by, class_name: 'User', optional: true
 
+  STATUS = ['open', 'resolved']
   validates :status, inclusion: ['open', 'resolved']
+
+  KEY = ['update', 'locate', 'review_suggestions']
   validates :key, inclusion: ['update', 'locate', 'review_suggestions'] # TODO: Come up with some more tasks
 
   PRIORITY = {

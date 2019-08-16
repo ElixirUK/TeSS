@@ -26,6 +26,10 @@
                         :class => 'btn btn-danger' %>
         <% end %>
         <a href="<%= @material.url %>" target="_blank" class="btn btn-success"><span class="fa fa-external-link"></span> View material</a>
+        <%# button to trigger the creation of curation tasks.%>
+        <% if !current_user.nil? and policy(@material).update? %>
+            <%= button_to 'Report for curation', {:controller => "curation_tasks", :action => "create",  "curation_task"=>{:status => 'open', :key => 'update', :priority => '0', :resource_type => 'Material', :resource_id => @material.id}}, :method=>:post, :class=>"btn btn-warning" %>
+        <% end %>
       </div>
     </div>
     <div class="row">

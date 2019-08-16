@@ -114,6 +114,8 @@ Rails.application.routes.draw do
     get 'topic_suggestions' => 'curator#topic_suggestions', as: 'curate_topic_suggestions'
     get 'users' => 'curator#users', as: 'curate_users'
     get '/' => 'curator#index', as: 'curate'
+    get 'new' => 'curation_tasks#new', as: 'curation_tasks_new'
+    post '/tasks' => 'curation_tasks#create'
     resources :tasks, only: [:index, :show], controller: 'curation_tasks', as: 'curation_tasks' do
       collection do
         get :next

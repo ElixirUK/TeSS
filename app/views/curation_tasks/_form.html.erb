@@ -1,0 +1,16 @@
+<%= simple_form_for  @curation_task, html: { class: "curation_task"} do |f| %>
+
+    <%= f.input :status, label: 'Status', collection: CurationTask::STATUS, include_blank: false %>
+    <%= f.input :key, label: 'Key', collection: CurationTask::KEY, include_blank: false %>
+    <%= f.input :priority, label: 'Priority', collection: CurationTask::PRIORITY, include_blank: false %> 
+
+    <%= f.input :resource_type, as: :string %>
+    <%= f.input :resource_id, as: :numeric %>
+
+    <div class="form-group">
+      <%= f.submit ( f.object.new_record? ? "Create" : "Update") + " curation task", class: 'btn btn-primary' %>
+      <%= link_to 'Back', curation_tasks_path, class: "btn btn-info" %>
+      <%= link_to t('.cancel', default: t("helpers.links.cancel")),
+                  curation_tasks_path, class: 'btn btn-default' %>
+    </div>
+<% end %>

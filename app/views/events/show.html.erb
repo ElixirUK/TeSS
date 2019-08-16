@@ -43,6 +43,10 @@
                         :class => 'btn btn-danger' %>
         <% end %>
         <a href="<%= @event.url %>" target="_blank" class="btn btn-success"><span class="fa fa-external-link"></span> View event</a>
+        <%# button to trigger the creation of curation tasks.%>
+        <% if !current_user.nil? and policy(@event).update? %>
+            <%= link_to 'Report for curation', {:controller => "curation_tasks", :action => "create",  "curation_task"=>{:status => 'open', :key => 'update', :priority => '0', :resource_type => 'Event', :resource_id => @event.id}}, :method=>:post, :class=>"btn btn-warning" %>
+        <% end %>
       </div>
     </div>
 
