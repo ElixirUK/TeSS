@@ -21,6 +21,7 @@
 //= require split
 //= require handlebars.runtime
 //= require handlebars_helpers
+//= require edam-select
 //= require masonry.pkgd
 //= require imagesloaded.pkgd
 //= require markdown-it
