@@ -27,4 +27,75 @@ module HasLearningStatements
     (resources - resources.uniq { |r| [r.noun, r.verb] }).each(&:mark_for_destruction)
   end
 
+  def learning_tree
+    tree = get_tree(self)
+    print_tree(tree)
+  end
+
+  private
+
+  # Recursively get the training pre-requisite tree for a target course
+  def get_tree(target_resource, seen = [])
+    seen << target_resource
+    required_trainings = []
+
+    # Get an array of all the training which satisfy this courses pre-requisites
+    # TODO: Group these by which pre-req they satisfy
+    pre_reqs = target_resource.prerequisites
+    pre_reqs.each do |pre_req|
+      pre_req.matching_learning_outcomes.each do |resource|
+        unless seen.include?(resource)
+          required_trainings << {
+              :resource => resource,
+              :pre_req => pre_req
+          }
+        end
+      end
+    end
+
+    branch = []
+    if required_trainings.count.positive?
+      # For each required training resource that hasn't already come up
+      #   Call this function again to get its required training
+      required_trainings.each do |required_training|
+        resource = required_training[:resource]
+        seen << resource
+        sub_tree = get_tree(resource, seen)
+        branch << if sub_tree.blank?
+                       required_training
+                     else
+                       { required_training => sub_tree }
+                     end
+        seen.pop
+      end
+    end
+    branch
+  end
+
+  def node_text(resource, pre_req)
+    if pre_req.nil?
+      "#{resource.title}\n<br/>"
+    else
+      "#{resource.title} [#{pre_req.verb} #{pre_req.noun}]<br/>"
+    end
+  end
+
+  def print_tree(subtree, string=[], spaces=4, level=1)
+    if subtree.is_a? Hash
+      if subtree.key?(:resource) #leaf node
+        string << "#{'&nbsp;'*spaces*level} #{node_text(subtree[:resource], subtree[:pre_req])}"
+      elsif subtree.keys.is_a? Array and subtree.keys.first.key?(:resource) #Connected node
+        string << "#{' '*spaces*level}#{node_text(subtree.keys.first[:resource], subtree.keys.first[:pre_req])}"
+        print_tree(subtree.values,string,spaces,level+1)
+      end
+    elsif subtree.is_a? Array
+      subtree.each do |item|
+        print_tree(item,string,spaces,level+1)
+      end
+    else
+      string << "#{' '*spaces*level}#{subtree.title}"
+    end
+    string.join("")
+  end
+
 end

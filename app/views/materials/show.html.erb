@@ -71,6 +71,8 @@
                 </ul>
             <% end %>
 
+
+
             <%= render partial: 'common/prerequisites_display', locals: {resource: @material} %>
 
             <div class="dont-break-out">
@@ -100,6 +102,8 @@
                     <%= render partial: 'common/external_resources_list', locals: { external_resources: @material.external_resources} %>
                 <% end %>
               </div>
+
+              <%#= @material.learning_tree.html_safe %>
 
               <%= render :partial => 'materials/partials/material_schemaorg', :locals => {:material => @material} %>
               <%= render :partial => 'materials/partials/twitter_card', :locals => {:material => @material} %>
