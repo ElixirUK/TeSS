@@ -1,25 +1,8 @@
 <% form_name = self.controller_name.singularize %>
 
 <div class="panel panel-default" id="learning-statements" data-form-name="<%=form_name%>">
-  <div class="panel-heading">Pre-requisites / Learning Outcomes Form <small>(only visible to privileged users)</small></div>
+  <div class="panel-heading">Learning Outcomes / Pre-requisites Form <small>(only visible to privileged users)</small></div>
   <div class="panel-body">
-
-    <div class="form-group" id="prerequisites">
-      <%= f.label :prerequisites%>
-      <%= f.field_lock :prerequisites%>
-
-      <div id="prerequisites-list">
-        <% resource.prerequisites.each_with_index do |prerequisite, index| %>
-            <%= render partial: 'common/prerequisite_form',
-                       locals: { f: f, form_name: form_name, index: index, prerequisite: prerequisite} %>
-        <% end %>
-      </div>
-
-      <a href="#" id="add-prerequisites-btn" class="btn btn-info">
-        <i class="fa fa-plus"></i> Add prerequisite
-      </a>
-    </div>
-
     <div class="form-group" id="learning-outcomes">
       <%= f.label :learning_outcomes %>
       <%= f.field_lock :learning_outcomes %>
@@ -34,5 +17,24 @@
          <i class="fa fa-plus"></i> Add learning outcome
        </a>
     </div>
+
+
+    <div class="form-group" id="prerequisites">
+      <%= f.label :prerequisites%>
+      <%= f.field_lock :prerequisites%>
+
+      <div id="prerequisites-list">
+        <% resource.prerequisites.each_with_index do |prerequisite, index| %>
+          <%= render partial: 'common/prerequisite_form',
+                     locals: { f: f, form_name: form_name, index: index, prerequisite: prerequisite} %>
+        <% end %>
+      </div>
+
+      <a href="#" id="add-prerequisites-btn" class="btn btn-info">
+        <i class="fa fa-plus"></i> Add prerequisite
+      </a>
+    </div>
+
+
   </div>
 </div>
