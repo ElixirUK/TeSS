@@ -31,38 +31,38 @@ let LearningStatement = {
 
     // This is just cosmetic. The actual removal is done by rails,
     //   by virtue of the hidden checkbox being checked when the label is clicked.
-    delete: function (type) {
-        $(this).parents('.' + type + '-form').fadeOut();
+    delete: function (delete_button, type) {
+        $(delete_button).parents('.' + type + '-form').fadeOut();
     }
 };
 
 
 let LearningOutcomes = {
-    add: function (noun, verb) {
+    add: function () {
         LearningStatement.add('learning-outcomes');
         return false;
     },
     delete: function() {
-        LearningStatement.delete('learning-outcomes');
+        LearningStatement.delete(this, 'learning-outcomes');
     }
 };
 
 
 let Prerequisites = {
-    add: function (noun, verb) {
+    add: function () {
         LearningStatement.add('prerequisites');
         return false;
     },
     delete: function() {
-        LearningStatement.delete('prerequisites');
+        LearningStatement.delete(this, 'prerequisites');
+        return false;
     }
 };
 
 // Courtesy of Ivan Kuzmin
 //   https://inkuzmin.github.io/edam-select/
 
-function edamSelector(html_element_id, preset_value=false){
-    console.log(html_element_id)
+function edamSelector(html_element_id, preset_values=false){
     let edamSelect = new EdamSelect(html_element_id, {
         name: html_element_id,          // optional
         type: EDAM_BRANCH,
@@ -78,7 +78,7 @@ function edamSelector(html_element_id, preset_value=false){
             synonyms: false,
             definitions: false,
         },
-        preselected: false     // default
+        preselected: preset_values     // default
     });
 
 }
