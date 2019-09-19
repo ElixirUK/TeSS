@@ -56,10 +56,6 @@
       <%= render partial: 'events/partials/address_finder', locals: { f: f } %>
     </div>
 
-    <% if policy(@event).add_learning_statements? and ['new', 'create'].include? controller.action_name %>
-        <%= render partial: 'common/learning_statements', locals: {f: f, resource: @event} %>
-    <% end %>
-
     <%= f.input :organizer, field_lock: true %>
 
     <%= f.input :content_provider_id, label: 'Content provider (where the event metadata is obtained from)',

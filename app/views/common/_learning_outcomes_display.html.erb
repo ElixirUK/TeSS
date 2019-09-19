@@ -1,0 +1,12 @@
+
+<% if resource.learning_outcomes and !resource.learning_outcomes.empty? %>
+  <p><strong>After completing this course, you will be able to:</strong></p>
+  <ul>
+    <%  resource.learning_outcomes.each do |learning_outcome| %>
+      <li>
+        <%= learning_outcome.verb %>
+        <%= learning_outcome.noun_text %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

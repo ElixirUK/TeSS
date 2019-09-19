@@ -2,8 +2,10 @@
 <% index ||= 'replace-me' %> <%# This is so we can render a blank version of this sub-form in the page, %>
 <%# which can be dynamically cloned using JavaScript to add more ExternalResources to the main material form %>
 <% field_name_prefix = "#{form_name}[learning_outcomes_attributes][#{index}]" %> <%# This format is dictated by "accepts_nested_attributes_for" %>
+<% field_id_prefix_topic = "#{form_name}_learning_outcomes_attributes_#{index}" %> <%# This format is dictated by "accepts_nested_attributes_for" %>
+<!--event_prerequisites_attributes_1_noun-->
 
-<div class="form-inline learning-outcomes-form" data-index="<%= index -%>">
+<div class="form-inline learning-outcomes-form" data-index="<%= index -%>" data-form-type="<%= form_name %>">
 
   <%= hidden_field_tag("#{field_name_prefix}[id]", learning_outcome.id) %>
 
@@ -16,8 +18,13 @@
   </div>
 
   <div class="form-group">
-    <div id="edam-select-<%=index%>"></div>
+    <%= tag :div, name: "#{field_name_prefix}[noun]", id: "#{field_id_prefix_topic}" -%>
+    </div><!--For some reason the above tag does not close, so we need to add an extra </div> tag here...-->
+
+    <!-- hidden form field for storing selected ontology terms -->
+  <%= hidden_field_tag("#{field_name_prefix}[noun]", learning_outcome.noun) %>
   </div>
+
 
   <label class="delete-learning-outcomes-btn delete-multi-add-resource-btn">
     &times;

@@ -6,8 +6,9 @@
             <% course_suggestions = prerequisite.matching_learning_outcomes %>
             <% if course_suggestions and course_suggestions.any? %>
                               <span class="show-suggested-resources">
-                                <%= prerequisite.verb %> <%= prerequisite.noun %>
-                                <em>(see <%= pluralize(course_suggestions.count, "suggestion")%> to learn how to <%= prerequisite.verb %> <%= prerequisite.noun %>)</em>
+                                <%= prerequisite.verb %> <%= prerequisite.noun_text %>
+                                <em>(see <%= pluralize(course_suggestions.count, "suggestion")%> to learn how to
+                                  <%= prerequisite.verb %> <%= prerequisite.noun_text %>)</em>
                               </span>
                 <div class="hidden suggested-resources">
                   <em>These resources may help you master this pre-requisite</em>
@@ -18,7 +19,7 @@
                   </ul>
                 </div>
             <% else %>
-                <%= prerequisite.verb %> <%= prerequisite.noun %>
+                <%= prerequisite.verb %> <%= prerequisite.noun_text %>
             <% end %>
           </li>
 

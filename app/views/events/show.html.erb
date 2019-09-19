@@ -107,20 +107,8 @@
                   </script>
               <% end %>
 
-              <% if @event.learning_outcomes and !@event.learning_outcomes.empty? %>
-                  <p><strong>After attending this course, you will be able to:</strong></p>
-                  <ul>
-                  <%  @event.learning_outcomes.each do |learning_outcome| %>
-                      <li>
-                        <%= learning_outcome.verb %>
-                        <%= learning_outcome.noun %>
-                      </li>
-                  <% end %>
-                  </ul>
-              <% end %>
-
+              <%= render partial: 'common/learning_outcomes_display', locals: {resource: @event} %>
               <%= render partial: 'common/prerequisites_display', locals: {resource: @event} %>
-              
 
               <% if @event.organizer and !@event.organizer.blank? %>
                   <p><strong>Organizer:</strong>
