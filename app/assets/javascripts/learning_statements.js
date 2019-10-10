@@ -2,8 +2,9 @@ EDAM_BRANCH = 'operation';
 
 
 function get_current_index(type){
-    // Ensure the index of the new form is 1 greater than the current highest index, to prevent collisions
-    let index = 0;
+    // Find the element with the highest data-index for this type
+    // Return -1 if non-exist
+    let index = -1;
     $('#' + type + '-list .' + type + '-form').each(function () {
         let newIndex = parseInt($(this).data('index'));
         if (newIndex > index) {
@@ -97,7 +98,7 @@ function construct_html_element_id(type, index){
 function initialize_edam_selectors(type) {
     //counts how many instances of this type of learning statement there are
     let index = get_current_index(type);
-    if (index > 0){
+    if (index >= 0){
         //initiate edam selectors for each learning statement type
         for (let i = 0; i <= index; i++) {
             let html_element_id = construct_html_element_id(type, i);
@@ -113,10 +114,10 @@ function initialize_edam_selectors(type) {
 }
 
 document.addEventListener("turbolinks:load", function() {
-    initialize_edam_selectors('learning-outcomes');
     $('#learning-outcomes')
         .on('click', '#add-learning-outcomes-btn', LearningOutcomes.add)
         .on('change', '.delete-learning-outcomes-btn input.destroy-attribute', LearningOutcomes.delete);
+    initialize_edam_selectors('learning-outcomes');
 
 });
 
