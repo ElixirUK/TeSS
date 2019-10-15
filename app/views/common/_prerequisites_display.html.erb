@@ -26,7 +26,7 @@
                   </ul>
                 </div>
             <% else %>
-                <%= prerequisite.verb %> <%= prerequisite.noun_text %> using
+                <%= prerequisite.verb %> <%= prerequisite.noun_text %>
                 <% if prerequisite.tool_name %>
                   using <%= link_to prerequisite.tool_name, "https://bio.tools/#{prerequisite.tool_id}", target: "_blank" %>
                 <% end  %>
