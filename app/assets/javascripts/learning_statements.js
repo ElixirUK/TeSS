@@ -241,7 +241,16 @@ document.addEventListener("turbolinks:load", function() {
 });
 
 // Add listeners to set form field item with selected EDAM term
+// Horrible code swaps the participle_type and the index around
+// The ID for the hidden field is index then participle type, the ID for the select box is participle type then index
+//e.g selector id: "#event_learning_outcomes_attributes_noun_0"
+//      hidden id: "#event_learning_outcomes_attributes_0_noun"
 document.addEventListener('edam:change', (event) => {
-    let event_data = event.detail;
-    $(event_data.name + "_noun").val('http://edamontology.org/' + EDAM_BRANCH + "_" + event_data.selected[0][1]);
+    var event_data = event.detail;
+    var existing_id = event_data.name; //e.g "#event_learning_outcomes_attributes_noun_0"
+    var temp = existing_id.split("_");
+    var index = temp.pop();
+    var participle_type = temp.pop();
+    var hidden_id = temp.join("_") + "_" + index + "_" + participle_type;
+    $(hidden_id).val('http://edamontology.org/' + EDAM_BRANCH + "_" + event_data.selected[0][1]);
 });
