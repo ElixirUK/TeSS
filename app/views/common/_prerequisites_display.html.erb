@@ -5,11 +5,18 @@
           <li>
             <% course_suggestions = prerequisite.matching_learning_outcomes %>
             <% if course_suggestions and course_suggestions.any? %>
-                              <span class="show-suggested-resources">
-                                <%= prerequisite.verb %> <%= prerequisite.noun_text %>
-                                <em>(see <%= pluralize(course_suggestions.count, "suggestion")%> to learn how to
-                                  <%= prerequisite.verb %> <%= prerequisite.noun_text %>)</em>
-                              </span>
+                  <span class="show-suggested-resources">
+                    <%= prerequisite.verb %> <%= prerequisite.noun_text %>
+                    <% if prerequisite.tool_name %>
+                        using <%= link_to prerequisite.tool_name, "https://bio.tools/#{prerequisite.tool_id}", target: "_blank" %>
+                    <% end  %>
+                    <em>(see <%= pluralize(course_suggestions.count, "suggestion")%> to learn how to
+                      <%= prerequisite.verb %> <%= prerequisite.noun_text %>
+                      <% if prerequisite.tool_name %>
+                        using <%= link_to prerequisite.tool_name, "https://bio.tools/#{prerequisite.tool_id}", target: "_blank" %>
+                    <% end  %>
+                      )</em>
+                  </span>
                 <div class="hidden suggested-resources">
                   <em>These resources may help you master this pre-requisite</em>
                   <ul>
@@ -19,7 +26,10 @@
                   </ul>
                 </div>
             <% else %>
-                <%= prerequisite.verb %> <%= prerequisite.noun_text %>
+                <%= prerequisite.verb %> <%= prerequisite.noun_text %> using
+                <% if prerequisite.tool_name %>
+                  using <%= link_to prerequisite.tool_name, "https://bio.tools/#{prerequisite.tool_id}", target: "_blank" %>
+                <% end  %>
             <% end %>
           </li>
 

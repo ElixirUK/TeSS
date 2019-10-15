@@ -31,6 +31,7 @@
 //= require devbridge-autocomplete
 //= require clipboard
 //= require url_checker
+//= require choices.js
 //= require_tree ./templates
 //= require_tree .
 //= require_self

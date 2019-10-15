@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_101054) do
+ActiveRecord::Schema.define(version: 2019_10_15_134651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,8 @@ ActiveRecord::Schema.define(version: 2019_07_31_101054) do
     t.bigint "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "tool_id"
+    t.string "tool_name"
     t.index ["resource_type", "resource_id"], name: "index_learning_outcomes_on_resource_type_and_resource_id"
   end
 
@@ -298,6 +300,8 @@ ActiveRecord::Schema.define(version: 2019_07_31_101054) do
     t.bigint "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "tool_id"
+    t.string "tool_name"
     t.index ["resource_type", "resource_id"], name: "index_prerequisites_on_resource_type_and_resource_id"
   end
 
@@ -373,7 +377,6 @@ ActiveRecord::Schema.define(version: 2019_07_31_101054) do
     t.datetime "updated_at", null: false
     t.string "username"
     t.integer "role_id"
-    t.integer "material_id"
     t.string "authentication_token"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
