@@ -108,16 +108,12 @@ function initialize_tool_selector(statement_type, index){
     let selected_name = $(hidden_existing_value + '_name').val();
 
     var config = {
-        choices: [{
-            value: selected_id,
-            label: selected_name,
-            selected: true
-        }],
         placeholder: true,
         placeholderValue: 'Search Biotools API',
         maxItemCount: 20,
         searchChoices: false,
         duplicateItemsAllowed: false,
+        removeItemButton: true,
         shouldSort: false,
         noChoicesText: 'Start typing a tool to query bio.tools',
         classNames: {
@@ -149,6 +145,14 @@ function initialize_tool_selector(statement_type, index){
             noChoices: 'has-no-choices'
         },
     };
+    if (selected_id && selected_name){
+        config['choices'] = [{
+            value: selected_id,
+            label: selected_name,
+            selected: true
+        }]
+    }
+
 
     let html_element_id = construct_html_element_id(statement_type, 'tool', index);
     var elem = $(html_element_id)[0];
