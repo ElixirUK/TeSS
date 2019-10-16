@@ -140,11 +140,19 @@
 </div>
 
 <div id="learning-outcomes-template" style="display: none">
-  <%= render partial: 'common/learning_outcome_form',
-             locals: { form_name: 'event', learning_outcome: LearningOutcome.new } %>
+  <%= render partial: 'common/learning_statement_form',
+             locals: {
+                 form_name: 'event',
+                 statement: LearningOutcome.new,
+                 statement_type: 'learning_outcome'
+             } %>
 </div>
 
 <div id="prerequisites-template" style="display: none">
-  <%= render partial: 'common/prerequisite_form',
-             locals: { form_name: 'event', prerequisite: Prerequisite.new } %>
+  <%= render partial: 'common/learning_statement_form',
+             locals: {
+                 form_name: 'event',
+                 statement: Prerequisite.new,
+                 statement_type: 'prerequisite'
+             } %>
 </div>

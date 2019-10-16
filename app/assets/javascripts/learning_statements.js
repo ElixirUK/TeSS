@@ -232,11 +232,11 @@ document.addEventListener("turbolinks:load", function() {
 
     $('#learning-outcomes')
         .on('click', '#add-learning-outcomes-btn', LearningOutcomes.add)
-        .on('change', '.delete-learning-outcomes-btn input.destroy-attribute', LearningOutcomes.delete);
+        .on('change', '.delete-learning-statement-btn input.destroy-attribute', LearningOutcomes.delete);
     initialize_selectors('learning-outcomes')
     $('#prerequisites')
         .on('click', '#add-prerequisites-btn', Prerequisites.add)
-        .on('change', '.delete-prerequisites-btn input.destroy-attribute', Prerequisites.delete);
+        .on('change', '.delete-learning-statement-btn input.destroy-attribute', Prerequisites.delete);
     initialize_selectors('prerequisites')
 });
 
