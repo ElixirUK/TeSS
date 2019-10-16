@@ -7,12 +7,12 @@
             <% if course_suggestions and course_suggestions.any? %>
                   <span class="show-suggested-resources">
                     <%= prerequisite.verb %> <%= prerequisite.noun_text %>
-                    <% if prerequisite.tool_name %>
+                    <% if prerequisite.tool_name and !prerequisite.tool_name.blank?%>
                         using <%= link_to prerequisite.tool_name, "https://bio.tools/#{prerequisite.tool_id}", target: "_blank" %>
                     <% end  %>
                     <em>(see <%= pluralize(course_suggestions.count, "suggestion")%> to learn how to
                       <%= prerequisite.verb %> <%= prerequisite.noun_text %>
-                      <% if prerequisite.tool_name %>
+                      <% if prerequisite.tool_name and !prerequisite.tool_name.blank? %>
                         using <%= link_to prerequisite.tool_name, "https://bio.tools/#{prerequisite.tool_id}", target: "_blank" %>
                     <% end  %>
                       )</em>
@@ -27,7 +27,7 @@
                 </div>
             <% else %>
                 <%= prerequisite.verb %> <%= prerequisite.noun_text %>
-                <% if prerequisite.tool_name %>
+                <% if prerequisite.tool_name and !prerequisite.tool_name.blank? %>
                   using <%= link_to prerequisite.tool_name, "https://bio.tools/#{prerequisite.tool_id}", target: "_blank" %>
                 <% end  %>
             <% end %>
