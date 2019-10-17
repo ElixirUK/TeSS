@@ -25,6 +25,7 @@ var LearningStatement = {
         newForm = $(newForm.replace(/replace-me/g, index));
         newForm.appendTo('#' + statement_type + '-list');
 
+        initialize_verb_selector(statement_type, index);
         initialize_edam_selector(statement_type, index);
         initialize_tool_selector(statement_type, index);
 
@@ -103,6 +104,7 @@ function construct_html_element_id(statement_type, statement_participle, index, 
 function initialize_tool_selector(statement_type, index){
 
     let hidden_existing_value = construct_html_element_id(statement_type, 'tool', index, hidden=true);
+    let html_element_id = construct_html_element_id(statement_type, 'tool', index);
 
     let selected_id = $(hidden_existing_value + '_id').val();
     let selected_name = $(hidden_existing_value + '_name').val();
@@ -115,35 +117,7 @@ function initialize_tool_selector(statement_type, index){
         duplicateItemsAllowed: false,
         removeItemButton: true,
         shouldSort: false,
-        noChoicesText: 'Start typing a tool to query bio.tools',
-        classNames: {
-            containerOuter: 'choices',
-            containerInner: 'choices__inner',
-            input: 'choices__input',
-            inputCloned: 'choices__input--cloned',
-            list: 'choices__list',
-            listItems: 'choices__list--multiple',
-            listSingle: 'choices__list--single',
-            listDropdown: 'choices__list--dropdown',
-            item: 'choices__item',
-            itemSelectable: 'choices__item--selectable',
-            itemDisabled: 'choices__item--disabled',
-            itemChoice: 'choices__item--choice',
-            placeholder: 'choices__placeholder',
-            group: 'choices__group',
-            groupHeading: 'choices__heading',
-            button: 'choices__button',
-            activeState: 'is-active',
-            focusState: 'is-focused',
-            openState: 'is-open',
-            disabledState: 'is-disabled',
-            highlightedState: 'is-highlighted',
-            hiddenState: 'is-hidden',
-            flippedState: 'is-flipped',
-            loadingState: 'is-loading',
-            noResults: 'has-no-results',
-            noChoices: 'has-no-choices'
-        },
+        noChoicesText: 'Start typing a tool to query bio.tools'
     };
     if (selected_id && selected_name){
         config['choices'] = [{
@@ -154,7 +128,6 @@ function initialize_tool_selector(statement_type, index){
     }
 
 
-    let html_element_id = construct_html_element_id(statement_type, 'tool', index);
     var elem = $(html_element_id)[0];
 
     var choices = new Choices(elem, config);
@@ -198,9 +171,49 @@ function initialize_tool_selector(statement_type, index){
     elem.addEventListener('change', function(event){
         $('#' + event.target.dataset.hiddenId + '_id').val(event.detail.value);
         $('#' + event.target.dataset.hiddenId + '_name').val(event.target.textContent);
-
     });
 }
+
+function initialize_verb_selector(statement_type, index){
+    let hidden_existing_value = construct_html_element_id(statement_type, 'verb', index, hidden=true);
+    let html_element_id = construct_html_element_id(statement_type, 'verb', index);
+
+    let selected_verb = $(hidden_existing_value).val();
+
+    var config = {
+        placeholder: true,
+        placeholderValue: 'Find a verb',
+        maxItemCount: 20,
+        searchChoices: true,
+        duplicateItemsAllowed: false,
+        removeItemButton: true,
+        shouldSort: true,
+        noResultsText: 'Could not find the verb you are looking for. Please try a different term',
+    };
+    var elem = $(html_element_id)[0];
+    var choices = new Choices(elem, config);
+
+    if (selected_verb && selected_verb.length > 0){
+        choices.setChoices([{
+            value: selected_verb,
+            label: selected_verb,
+            selected: true
+        }])
+    } else {
+        choices.clearChoices()
+    }
+
+
+    //Copy selection to hidden field ready for submission
+    //This hidden field ID is in the necessary format dictated by accepts_nested_attributes_for
+    elem.addEventListener('change', function(event){
+        console.log(event)
+
+        $('#' + event.target.dataset.hiddenId).val(event.detail.value);
+    });
+
+}
+
 
 function initialize_edam_selector(statement_type, index){
     let hidden_existing_value = construct_html_element_id(statement_type, 'noun', index, hidden=true);
@@ -213,6 +226,9 @@ function initialize_edam_selector(statement_type, index){
         edamSelector(html_element_id)
     }
 }
+
+
+
 
 /*
     On page load, add edam selectors and biotools selectors for each
@@ -228,6 +244,7 @@ function initialize_selectors(statement_type) {
         for (let i = 0; i <= index; i++) {
             initialize_edam_selector(statement_type, i);
             initialize_tool_selector(statement_type, i);
+            initialize_verb_selector(statement_type, i);
         }
     }
 }
