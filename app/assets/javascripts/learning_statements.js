@@ -1,5 +1,5 @@
 EDAM_BRANCH = 'operation';
-
+BIOTOOLS_SELECTORS = {};
 
 function get_current_index(statement_type){
     // Find the element with the highest data-index for this type
@@ -79,9 +79,7 @@ function edamSelector(html_element_id, preset_values=false){
         },
         preselected: preset_values     // default
     });
-
 }
-
 
 /*
     Returns the HTML element ID string for a prerequisite or learning outcome _index_
@@ -96,82 +94,6 @@ function construct_html_element_id(statement_type, statement_participle, index, 
     } else {
         return "#" + resource_type + "_" + statement_type.split('-').join("_") + "_attributes_" + statement_participle + "_" + index;
     }
-}
-
-// Uses Choices.js https://github.com/jshjohnson/Choices/tree/v7.0.0
-// Baked in at; https://github.com/jshjohnson/Choices/tree/5cf226f16643838b9a4232f2fc42c134e6096025
-// Guide to using Choices.js for remote lookup service: https://github.com/jshjohnson/Choices/issues/162
-function initialize_tool_selector(statement_type, index){
-
-    let hidden_existing_value = construct_html_element_id(statement_type, 'tool', index, hidden=true);
-    let html_element_id = construct_html_element_id(statement_type, 'tool', index);
-
-    let selected_id = $(hidden_existing_value + '_id').val();
-    let selected_name = $(hidden_existing_value + '_name').val();
-
-    var config = {
-        placeholder: true,
-        placeholderValue: 'Search Biotools API',
-        maxItemCount: 20,
-        searchChoices: false,
-        duplicateItemsAllowed: false,
-        removeItemButton: true,
-        shouldSort: false,
-        noChoicesText: 'Start typing a tool to query bio.tools'
-    };
-    if (selected_id && selected_name){
-        config['choices'] = [{
-            value: selected_id,
-            label: selected_name,
-            selected: true
-        }]
-    }
-
-
-    var elem = $(html_element_id)[0];
-
-    var choices = new Choices(elem, config);
-
-    var apiUrl = 'https://bio.tools/api/tool/?format=json&sort=score&q=';
-    var lookupDelay = 100;
-    var lookupTimeout = null;
-    var lookupCache = {};
-
-
-    var populateChoices = function(returned_choices) {
-        choices.setChoices(returned_choices.list, 'biotoolsID', 'name', true);
-    };
-
-    var serverLookup = function() {
-        var query = choices.input.value;
-        if (query in lookupCache) {
-            populateChoices(lookupCache[query]);
-        } else {
-            fetch(apiUrl + query)
-                .then(function(response) {
-                    response.json().then(function(data) {
-                            lookupCache[query] = data;
-                            populateChoices(data);
-                        });
-                    })
-                    .catch(function(error) {
-                        console.error(error);
-                });
-        }
-    };
-
-    //When user types into the search area: query biotools or load from cache, and display results.
-    elem.addEventListener('search', function(event){
-        clearTimeout(lookupTimeout);
-        lookupTimeout = setTimeout(serverLookup, lookupDelay);
-    });
-
-    //Copy selection to hidden field ready for submission
-    //This hidden field ID is in the necessary format dictated by accepts_nested_attributes_for
-    elem.addEventListener('change', function(event){
-        $('#' + event.target.dataset.hiddenId + '_id').val(event.detail.value);
-        $('#' + event.target.dataset.hiddenId + '_name').val(event.target.textContent);
-    });
 }
 
 function initialize_verb_selector(statement_type, index){
@@ -189,6 +111,7 @@ function initialize_verb_selector(statement_type, index){
         removeItemButton: true,
         shouldSort: true,
         noResultsText: 'Could not find the verb you are looking for. Please try a different term',
+        itemSelectText: ''
     };
     var elem = $(html_element_id)[0];
     var choices = new Choices(elem, config);
@@ -197,21 +120,15 @@ function initialize_verb_selector(statement_type, index){
         choices.setChoices([{
             value: selected_verb,
             label: selected_verb,
-            selected: true
+            selected: true,
+            replaceChoices: true
         }])
-    } else {
-        choices.clearChoices()
     }
-
-
     //Copy selection to hidden field ready for submission
     //This hidden field ID is in the necessary format dictated by accepts_nested_attributes_for
     elem.addEventListener('change', function(event){
-        console.log(event)
-
         $('#' + event.target.dataset.hiddenId).val(event.detail.value);
     });
-
 }
 
 
@@ -229,9 +146,35 @@ function initialize_edam_selector(statement_type, index){
 
 
 
+// Uses Choices.js https://github.com/jshjohnson/Choices/tree/v7.0.0
+// Baked in at; https://github.com/jshjohnson/Choices/tree/5cf226f16643838b9a4232f2fc42c134e6096025
+// Guide to using Choices.js for remote lookup service: https://github.com/jshjohnson/Choices/issues/162
+function initialize_tool_selector(statement_type, index){
+
+    let html_element_id = construct_html_element_id(statement_type, 'tool', index);
+    let hidden_existing_value = construct_html_element_id(statement_type, 'tool', index, hidden=true);
+
+    let selected_id = $(hidden_existing_value + '_id').val();
+    let selected_name = $(hidden_existing_value + '_name').val();
+
+    const tool_selector = new BioToolsSelector(html_element_id, selected_id, selected_name);
+
+    tool_selector.query(tool_selector.selector.input.value);
+
+    //Copy selection to hidden field ready for submission
+    //This hidden field ID is in the necessary format dictated by accepts_nested_attributes_for
+    tool_selector.element.addEventListener('change', function(event){
+        $('#' + event.target.dataset.hiddenId + '_id').val(event.detail.value);
+        $('#' + event.target.dataset.hiddenId + '_name').val(event.target.textContent);
+    });
+
+    BIOTOOLS_SELECTORS[html_element_id] = tool_selector
+}
+
+
 
 /*
-    On page load, add edam selectors and biotools selectors for each
+    Load a verb, edam selector and biotool selector; for each
     of the _i_ prereqs/learning outcomes.
 
     statement_type is either learning-outcomes or prerequisites
@@ -242,12 +185,42 @@ function initialize_selectors(statement_type) {
     if (index >= 0){
         //initiate an edam and tool selectors for this learning statement
         for (let i = 0; i <= index; i++) {
-            initialize_edam_selector(statement_type, i);
+            // note: tool selector must be initialized first in order for the edam selector
+            //       edam:change event to query the tool selector with the selected operation
             initialize_tool_selector(statement_type, i);
+            initialize_edam_selector(statement_type, i);
             initialize_verb_selector(statement_type, i);
+
         }
     }
 }
+
+
+document.addEventListener('edam:change', (event) => {
+    /*
+        Add listeners to set hidden field with selected EDAM term
+        The ID for the hidden field is index then participle type.
+        The ID for the select element is participle type then index.
+        e.g hidden field id: "#event_learning_outcomes_attributes_0_noun"
+            select field id: "#event_learning_outcomes_attributes_noun_0"
+     */
+
+    let event_data = event.detail;
+    let existing_id = event_data.name; //e.g "#event_learning_outcomes_attributes_noun_0"
+    let temp = existing_id.split("_");
+    let index = temp.pop();
+    let participle_type = temp.pop();
+    let base = temp.join('_');
+    let hidden_id = base + "_" + index + "_" + participle_type;
+    $(hidden_id).val('http://edamontology.org/' + EDAM_BRANCH + "_" + event_data.selected[0][1]);
+
+    //Update biotools selector items with tools matching selected operation
+
+    let tool_selector_id = [base, 'tool', index].join('_');
+    let tool_selector = BIOTOOLS_SELECTORS[tool_selector_id];
+    tool_selector.query({'operation': event_data.selected[0][2]});
+
+});
 
 document.addEventListener("turbolinks:load", function() {
 
@@ -259,19 +232,4 @@ document.addEventListener("turbolinks:load", function() {
         .on('click', '#add-prerequisites-btn', Prerequisites.add)
         .on('change', '.delete-learning-statement-btn input.destroy-attribute', Prerequisites.delete);
     initialize_selectors('prerequisites')
-});
-
-// Add listeners to set form field item with selected EDAM term
-// Horrible code swaps the participle_type and the index around
-// The ID for the hidden field is index then participle type, the ID for the select box is participle type then index
-//e.g selector id: "#event_learning_outcomes_attributes_noun_0"
-//      hidden id: "#event_learning_outcomes_attributes_0_noun"
-document.addEventListener('edam:change', (event) => {
-    var event_data = event.detail;
-    var existing_id = event_data.name; //e.g "#event_learning_outcomes_attributes_noun_0"
-    var temp = existing_id.split("_");
-    var index = temp.pop();
-    var participle_type = temp.pop();
-    var hidden_id = temp.join("_") + "_" + index + "_" + participle_type;
-    $(hidden_id).val('http://edamontology.org/' + EDAM_BRANCH + "_" + event_data.selected[0][1]);
 });
