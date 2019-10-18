@@ -7,7 +7,7 @@ $choices-font-size-lg: 13px !default;
 $choices-font-size-md: 13px !default;
 $choices-font-size-sm: 12px !default;
 $choices-guttering: 24px !default;
-$choices-border-radius: 2.5px !default;
+$choices-border-radius: 25px !default;
 $choices-border-radius-item: 20px !default;
 $choices-bg-color: white !default;
 $choices-bg-color-disabled: #EAEAEA !default;
@@ -21,9 +21,10 @@ $choices-button-dimension: 8px !default;
 $choices-button-offset: 8px !default;
 $choices-icon-cross: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjEiIHZpZXdCb3g9IjAgMCAyMSAyMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjRkZGIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yLjU5Mi4wNDRsMTguMzY0IDE4LjM2NC0yLjU0OCAyLjU0OEwuMDQ0IDIuNTkyeiIvPjxwYXRoIGQ9Ik0wIDE4LjM2NEwxOC4zNjQgMGwyLjU0OCAyLjU0OEwyLjU0OCAyMC45MTJ6Ii8+PC9nPjwvc3ZnPg==) !default;
 $choices-icon-cross-inverse: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjEiIHZpZXdCb3g9IjAgMCAyMSAyMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjMDAwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yLjU5Mi4wNDRsMTguMzY0IDE4LjM2NC0yLjU0OCAyLjU0OEwuMDQ0IDIuNTkyeiIvPjxwYXRoIGQ9Ik0wIDE4LjM2NEwxOC4zNjQgMGwyLjU0OCAyLjU0OEwyLjU0OCAyMC45MTJ6Ii8+PC9nPjwvc3ZnPg==) !default;
+$width: 100%;
 
 .#{$choices-selector} {
-  min-width: 204px;
+  width: $width;
   max-height: 34px;
   position: relative;
   margin-bottom: $choices-guttering;
@@ -112,33 +113,6 @@ $choices-icon-cross-inverse: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiI
   }
 }
 
-.#{$choices-selector}[data-type*="select-multiple"],
-.#{$choices-selector}[data-type*="text"] {
-  .#{$choices-selector}__inner {
-    cursor: text;
-  }
-  .#{$choices-selector}__button {
-    position: relative;
-    display: inline-block;
-    margin-top: 0;
-    margin-right: -$choices-button-offset/2;
-    margin-bottom: 0;
-    margin-left: $choices-button-offset;
-    padding-left: $choices-button-offset*2;
-    border-left: 1px solid darken($choices-primary-color, 10%);
-    background-image: $choices-icon-cross;
-    background-size: $choices-button-dimension;
-    width: $choices-button-dimension;
-    line-height: 1;
-    opacity: .75;
-    border-radius: 0;
-    &:hover,
-    &:focus {
-      opacity: 1;
-    }
-  }
-}
-
 .#{$choices-selector}__inner {
   display: inline-block;
   vertical-align: top;
@@ -216,7 +190,7 @@ $choices-icon-cross-inverse: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiI
 
 .#{$choices-selector}__list--dropdown {
   display: none;
-  z-index: 1;
+  z-index: 10;
   position: absolute;
   width: 100%;
   background-color: $choices-bg-color-dropdown;

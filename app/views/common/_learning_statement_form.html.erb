@@ -13,15 +13,16 @@ params:
 <% field_id_prefix_verb = "#{form_name}_#{statement_type.pluralize}_attributes_verb_#{index}" %>
 <% field_id_prefix_topic = "#{form_name}_#{statement_type.pluralize}_attributes_noun_#{index}" %>
 <% field_id_prefix_tool = "#{form_name}_#{statement_type.pluralize}_attributes_tool_#{index}" %>
+<% text = {} %>
+<% text['prerequisite'] = 'Before this course, you should be able to ' %>
+<% text['learning_outcome'] = 'After this course, you will be able to ' %>
 
 <div class="form-inline learning-statement-form <%=css_statement_type%>-form" data-index="<%= index -%>" data-form-type="<%= form_name %>">
+    <%= hidden_field_tag("#{field_name_prefix}[id]", statement.id) %>
 
-  <%= hidden_field_tag("#{field_name_prefix}[id]", statement.id) %>
+    <%= text[statement_type] %>
 
-  <!-- TODO: Replace with Choices.js -->
-    Verb:
-   <div class="learning-statement-tool">
-
+    <div class="learning-statement-participle learning-statement-verb">
      <select data-hidden-id="<%= "#{form_name}_#{statement_type.pluralize}_attributes_#{index}_verb"-%>"
                 id="<%=field_id_prefix_verb%>"
                 placeholder="Select a verb"
@@ -31,15 +32,14 @@ params:
         </select>
         <%= hidden_field_tag("#{field_name_prefix}[verb]", statement.verb) %>
     </div>
-    Activity:
-    <%= tag :div, name: "#{field_name_prefix}[noun]", id: "#{field_id_prefix_topic}" -%>
-    </div><!--For some reason the above tag does not close, so we need to add an extra </div> tag here...-->
-
-    <!-- hidden form field for storing selected ontology terms -->
-    <%= hidden_field_tag("#{field_name_prefix}[noun]", statement.noun) %>
-
-    Using:
-    <div class="learning-statement-tool">
+    <div class="learning-statement-participle learning-statement-noun">
+      <%= tag :div, name: "#{field_name_prefix}[noun]", id: "#{field_id_prefix_topic}" -%>
+      </div><!--For some reason the above tag does not close, so we need to add an extra </div> tag here...-->
+      <!-- hidden form field for storing selected ontology terms -->
+      <%= hidden_field_tag("#{field_name_prefix}[noun]", statement.noun) %>
+    </div>
+    using
+    <div class="learning-statement-participle learning-statement-tool">
       <select
               data-hidden-id="<%= "#{form_name}_#{statement_type.pluralize}_attributes_#{index}_tool"-%>"
               id="<%=field_id_prefix_tool%>"
@@ -50,9 +50,9 @@ params:
       <%= hidden_field_tag("#{field_name_prefix}[tool_name]", statement.tool_name) %>
     </div>
 
-  <label class="delete-learning-statement-btn ">
-    &times;
-    <%= hidden_field_tag "#{field_name_prefix}[_destroy]", '0', :autocomplete => 'off' %>
-    <%= check_box_tag "#{field_name_prefix}[_destroy]", '1', false, :class => 'destroy-attribute', :autocomplete => 'off' %>
-  </label>
+    <label class="delete-learning-statement-btn ">
+      &times;
+      <%= hidden_field_tag "#{field_name_prefix}[_destroy]", '0', :autocomplete => 'off' %>
+      <%= check_box_tag "#{field_name_prefix}[_destroy]", '1', false, :class => 'destroy-attribute', :autocomplete => 'off' %>
+    </label>
 </div>
