@@ -2,10 +2,7 @@ var lookupDelay = 100;
 var lookupTimeout = null;
 var lookupCache = {};
 
-let BioToolsSelector = class BioToolsSelector {
-
-    selector = null;
-    element = '';
+class BioToolsSelector {
 
     constructor(id, preset_id, preset_value){
         var config = {
