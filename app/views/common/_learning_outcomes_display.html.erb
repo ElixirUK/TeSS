@@ -5,7 +5,7 @@
     <%  resource.learning_outcomes.each do |learning_outcome| %>
       <li>
         <%= learning_outcome.verb %>
-        <%= learning_outcome.noun_text %>
+        <%= learning_outcome.noun%><%#_text %>
         <% if learning_outcome.tool_name  and !learning_outcome.tool_name.blank? %>
           using <%= link_to learning_outcome.tool_name, "https://bio.tools/#{learning_outcome.tool_id}", target: "_blank" %>
         <% end  %>

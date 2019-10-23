@@ -32,12 +32,26 @@ params:
         </select>
         <%= hidden_field_tag("#{field_name_prefix}[verb]", statement.verb) %>
     </div>
+
     <div class="learning-statement-participle learning-statement-noun">
-      <%= tag :div, name: "#{field_name_prefix}[noun]", id: "#{field_id_prefix_topic}" -%>
-      </div><!--For some reason the above tag does not close, so we need to add an extra </div> tag here...-->
-      <!-- hidden form field for storing selected ontology terms -->
+      <select data-hidden-id="<%= "#{form_name}_#{statement_type.pluralize}_attributes_#{index}_noun"-%>"
+              id="<%=field_id_prefix_topic%>"
+              placeholder="Select a noun"
+              data-lpignore="true">
+        <option value="<%= statement.noun || '' %>" selected="selected"></option>
+        <%= options_for_select(NounDictionary.instance.options_for_select, '') %>
+      </select>
       <%= hidden_field_tag("#{field_name_prefix}[noun]", statement.noun) %>
     </div>
+
+    <!--div class="learning-statement-participle learning-statement-noun">
+      <%#= tag :div, name: "#{field_name_prefix}[noun]", id: "#{field_id_prefix_topic}" -%>
+      </div-->
+      <!--For some reason the above tag does not close, so we need to add an extra </div> tag here...-->
+      <!-- hidden form field for storing selected ontology terms -->
+      <%#= hidden_field_tag("#{field_name_prefix}[noun]", statement.noun) %>
+    <!--/div-->
+
     using
     <div class="learning-statement-participle learning-statement-tool">
       <select

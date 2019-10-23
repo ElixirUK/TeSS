@@ -25,8 +25,9 @@ var LearningStatement = {
         newForm = $(newForm.replace(/replace-me/g, index));
         newForm.appendTo('#' + statement_type + '-list');
 
-        initialize_verb_selector(statement_type, index);
-        initialize_edam_selector(statement_type, index);
+        initialize_dictionary_selector(statement_type, 'verb', index);
+        //initialize_edam_selector(statement_type, index);
+        initialize_dictionary_selector(statement_type, 'noun', index);
         initialize_tool_selector(statement_type, index);
 
         return false; // Stop form being submitted
@@ -96,30 +97,30 @@ function construct_html_element_id(statement_type, statement_participle, index, 
     }
 }
 
-function initialize_verb_selector(statement_type, index){
-    let hidden_existing_value = construct_html_element_id(statement_type, 'verb', index, hidden=true);
-    let html_element_id = construct_html_element_id(statement_type, 'verb', index);
+function initialize_dictionary_selector(statement_type, dictionary_type, index){
+    let hidden_existing_value = construct_html_element_id(statement_type, dictionary_type, index, hidden=true);
+    let html_element_id = construct_html_element_id(statement_type, dictionary_type, index);
 
-    let selected_verb = $(hidden_existing_value).val();
+    let selected_term = $(hidden_existing_value).val();
 
     var config = {
         placeholder: true,
-        placeholderValue: 'Find a verb',
+        placeholderValue: 'Find a ' + dictionary_type,
         maxItemCount: 20,
         searchChoices: true,
         duplicateItemsAllowed: false,
         removeItemButton: true,
         shouldSort: true,
-        noResultsText: 'Could not find the verb you are looking for. Please try a different term',
+        noResultsText: 'Could not find the ' + dictionary_type + ' you are looking for. Please try a different term',
         itemSelectText: ''
     };
     var elem = $(html_element_id)[0];
     var choices = new Choices(elem, config);
 
-    if (selected_verb && selected_verb.length > 0){
+    if (selected_term && selected_term.length > 0){
         choices.setChoices([{
-            value: selected_verb,
-            label: selected_verb,
+            value: selected_term,
+            label: selected_term,
             selected: true,
             replaceChoices: true
         }])
@@ -188,8 +189,9 @@ function initialize_selectors(statement_type) {
             // note: tool selector must be initialized first in order for the edam selector
             //       edam:change event to query the tool selector with the selected operation
             initialize_tool_selector(statement_type, i);
-            initialize_edam_selector(statement_type, i);
-            initialize_verb_selector(statement_type, i);
+            //initialize_edam_selector(statement_type, i);
+            initialize_dictionary_selector(statement_type, 'verb', i);
+            initialize_dictionary_selector(statement_type, 'noun', i);
 
         }
     }
