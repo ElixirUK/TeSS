@@ -35,4 +35,26 @@
 
       <% end %>
     </ul>
+  <% if resource.prerequisites and !resource.prerequisites.empty? %>
+    <p><strong>Recommended learning options:</strong></p>
+    <ul>
+      <% resource.recommended_courses.each do |resource, prerequisites| %>
+        <% if (prerequisites.count > 1) %>
+          <li><%= link_to resource.title, resource %> satisfies <%= prerequisites.count %> prerequisites </li>
+          <ul>
+            <% prerequisites.each do |prerequisite| %>
+              <li>
+                <%= prerequisite.verb %> <%= prerequisite.noun%><%#_text%>
+                <% if prerequisite.tool_name and !prerequisite.tool_name.blank? %>
+                  using <%= link_to prerequisite.tool_name, "https://bio.tools/#{prerequisite.tool_id}", target: "_blank" %>
+                <% end  %>
+              </li>
+            <% end  %>
+          </ul>
+        <br>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+
 <% end %>

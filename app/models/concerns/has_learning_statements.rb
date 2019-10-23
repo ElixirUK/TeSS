@@ -12,6 +12,42 @@ module HasLearningStatements
     before_validation :remove_duplicate_prerequisites
   end
 
+
+  # Any courses that fulfil more than one prerequisites?
+  #
+  # Output format:
+  # {
+  #   resource_1 => [prerequisite_1, prerequisite_2, prerequisite_3]
+  #   resource_2 => [prerequisite_1, prerequiste_4]
+  # }
+  #
+  # recommended_courses[resource] << [prerequisites]
+  #
+  def recommended_courses
+    prereq_resources = {}
+    recommended = {}
+    # Collect all the materials for each prerequisite of this resource
+    prerequisites.each do |prerequisite|
+      matching_resources = prerequisite.matching_learning_outcomes
+      unless matching_resources.blank?
+        prereq_resources[prerequisite] = prerequisite.matching_learning_outcomes
+      end
+    end
+
+    # Flip the hash to set the keys as materials and values as prerequisites
+    prereq_resources.each do |prerequisite, resources|
+      resources.each do | resource |
+        if recommended[resource]
+          recommended[resource] << prerequisite
+        else
+          recommended[resource] = [prerequisite]
+        end
+      end
+    end
+    recommended
+  end
+
+
   def remove_duplicate_learning_outcomes
     # New resources have a `nil` created_at, doing this puts them at the end of the array.
     # Sorting them this way means that if there are duplicates, the oldest resource is preserved.
