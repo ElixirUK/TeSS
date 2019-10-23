@@ -169,7 +169,7 @@ $width: 100%;
     background-color: $choices-primary-color;
     border: 1px solid darken($choices-primary-color, 5%);
     color: #FFFFFF;
-    word-break: break-all;
+    word-break: break-word;
     &[data-deletable] {
       padding-right: 5px;
     }
@@ -231,7 +231,7 @@ $width: 100%;
   }
   .#{$choices-selector}__item--selectable {
     @media (min-width: 640px) {
-      padding-right: 100px;
+      //padding-right: 100px;
       &:after {
         content: attr(data-select-text);
         font-size: $choices-font-size-sm;
