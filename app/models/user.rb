@@ -3,7 +3,6 @@ class User < ApplicationRecord
 
   include PublicActivity::Common
 
-
   acts_as_token_authenticatable
   include Gravtastic
   gravtastic :secure => true, :size => 250
@@ -33,13 +32,13 @@ class User < ApplicationRecord
   belongs_to :role, optional: true
   has_many :subscriptions, dependent: :destroy
   has_many :stars, dependent: :destroy
-  has_one :ban
+  has_one :ban, dependent: :destroy, inverse_of: :user
 
   before_create :set_default_role, :set_default_profile
   before_create :skip_email_confirmation_for_non_production
   before_update :skip_email_reconfirmation_for_non_production
   before_destroy :reassign_owner
-  after_update :log_role_change
+  after_update :react_to_role_change
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -157,7 +156,8 @@ class User < ApplicationRecord
     # TODO: is this what we should be doing?
     #user = User.where(:provider => auth.provider, :uid => auth.uid).first
     # `auth.info` fields: email, first_name, gender, image, last_name, name, nickname, phone, urls
-    user = User.where(:email => auth.info.email ).first
+    user = User.where(uid: auth.uid, provider: auth.provider).first ||
+        User.where(email: auth.info.email).first
     if user
       if user.provider.nil? and user.uid.nil?
         user.uid = auth.uid
@@ -251,10 +251,11 @@ class User < ApplicationRecord
     self.nodes.each{|x| x.update_attribute(:user, default_user)} if self.nodes.any?
   end
 
-  def log_role_change
+  def react_to_role_change
     if saved_change_to_role_id?
       create_activity(:change_role, owner: User.current_user, parameters: { old: role_id_before_last_save,
                                                                             new: role_id })
+      Sunspot.index(created_resources.to_a) if TeSS::Config.solr_enabled
     end
   end
 
