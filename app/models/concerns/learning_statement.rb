@@ -6,6 +6,9 @@ module LearningStatement
     validates :verb, controlled_vocabulary: { dictionary: VerbDictionary.instance }
   end
 
+  def equals?(other)
+    verb == other.verb && noun == other.noun
+  end
 
   def noun_text
     term_val = ontology.lookup(self.noun)
