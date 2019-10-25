@@ -10,10 +10,9 @@ module BreadCrumbs
   def set_breadcrumbs
     add_base_breadcrumbs(controller_name)
 
-    if params[:id]
-      resource = instance_variable_get("@#{controller_name.singularize}")
-
-      add_show_breadcrumb resource if (resource && resource.respond_to?(:new_record?) && !resource.new_record?)
+    resource = instance_variable_get("@#{controller_name.singularize}")
+    if resource
+      add_show_breadcrumb resource if (resource.respond_to?(:new_record?) && !resource.new_record?)
 
       add_breadcrumb action_name.capitalize.humanize, polymorphic_path(resource) unless action_name == 'show'
     elsif action_name != 'index'
