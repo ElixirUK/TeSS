@@ -16,16 +16,27 @@ var Biotools = {
         return Biotools.baseUrl + '/api/tool';
     },
     websiteBaseURL: function(){
-        return Biotools.baseUrl + '/tool';
+        return Biotools.baseUrl;
+    },
+    format: function(){
+        return 'format=json'
     },
     search: function(){
         $('#biotools-results').empty();
-        Biotools.queryAPI(Biotools.apiBaseURL() + '?' + Biotools.queryParameter() + '&' + Biotools.sortParameter());
+        Biotools.queryAPI(Biotools.apiBaseURL() +
+            '?' + Biotools.queryParameter() +
+            '&' + Biotools.sortParameter() +
+            '&' + Biotools.format());
     },
-    nextPage: function(){
+    nextPage: function(event){
         var next_page = $(event.target).attr('data-next');
         if (next_page){
-            Biotools.queryAPI(Biotools.apiBaseURL() + next_page + '&' + Biotools.queryParameter() + '&' + Biotools.sortParameter());
+            Biotools.queryAPI(Biotools.apiBaseURL()
+                + next_page +
+                '&' + Biotools.queryParameter() +
+                '&' + Biotools.sortParameter() +
+                '&' + Biotools.format()
+            );
         } else {
             /* display nice 'were out of tools  message here */
         }
@@ -49,7 +60,7 @@ var Biotools = {
                 types = types + '<span class="label label-info">' + ttype + '</span>\n';
             });
             $('#biotools-results').append('' +
-                '<div id="' + item.id + '" class="col-md-12 col-sm-12 bounding-box" data-toggle=\"tooltip\" data-placement=\"top\" aria-hidden=\"true\" title=\"' + item.description + '\">' +
+                '<div id="' + item.biotoolsID + '" class="col-md-12 col-sm-12 bounding-box" data-toggle=\"tooltip\" data-placement=\"top\" aria-hidden=\"true\" title=\"' + item.description + '\">' +
                 '<h4>' +
                     '<i class="fa fa-wrench"></i> ' +
                     '<a href="' + url + '">' +
@@ -57,7 +68,7 @@ var Biotools = {
                             item.name +
                         '</span>' +
                     '</a>' +
-                    ' <i id="' + item.id + '" ' +
+                    ' <i id="' + item.biotoolsID + '" ' +
                     'class="fa fa-plus-square-o associate-tool"/ ' +
                     'title="click to associate ' + item.name + ' with this resource"' +
                     'data-title="' + item.name + '" data-url="' + url + '"/>' +
@@ -65,7 +76,7 @@ var Biotools = {
                 '<p>' + types + '</p>' +
                 '<span>' + truncateWithEllipses(item.description, 600) + '</span>' +
                     '<div class="external-links">' +
-                        '<a class="btn btn-warning" target="_blank" href="' + Biotools.websiteBaseURL() + '/' + item.id +'">' +
+                        '<a class="btn btn-warning" target="_blank" href="' + Biotools.websiteBaseURL() + '/' + item.biotoolsID +'">' +
                         'View ' + item.name + ' on bio.tools ' +
                         '<i class="fa fa-external-link"/></a>' +
                     '</div>' +
@@ -83,7 +94,6 @@ var Biotools = {
                 var res = {};
                 res['topics'] = [];
                 $.each(data.topic, function(index, topic){
-                    console.log(topic)
                     res['topics'].push('<a href="' + topic.uri +'" class="label label-default filter-button">' + topic.term + '</a>');
                 });
                 $('#tool-topics-' + id).html('<div>' + res['topics'].join(' ') + '</div>')
