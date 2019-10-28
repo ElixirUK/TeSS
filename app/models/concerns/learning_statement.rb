@@ -4,6 +4,7 @@ module LearningStatement
   included do
     belongs_to :resource, polymorphic: true
     validates :verb, controlled_vocabulary: { dictionary: VerbDictionary.instance }
+    validates :noun, controlled_vocabulary: { dictionary: NounDictionary.instance }
   end
 
   def equals?(other)
