@@ -57,6 +57,11 @@
                   <p><%= render_markdown(@material.short_description)%></p>
               <% end %>
             </div>
+
+
+            <%= render partial: 'common/learning_outcomes_display', locals: {resource: @material} %>
+            <%= render partial: 'common/prerequisites_display', locals: {resource: @material} %>
+
             <div class="dont-break-out">
               <%= render partial: 'common/extra_metadata', locals: { resource: @material } %>
 
@@ -84,6 +89,8 @@
                     <%= render partial: 'common/external_resources_list', locals: { external_resources: @material.external_resources} %>
                 <% end %>
               </div>
+
+              <%#= @material.learning_tree.html_safe %>
 
               <%= render :partial => 'materials/partials/material_schemaorg', :locals => {:material => @material} %>
               <%= render :partial => 'materials/partials/twitter_card', :locals => {:material => @material} %>

@@ -107,6 +107,9 @@
                   </script>
               <% end %>
 
+              <%= render partial: 'common/learning_outcomes_display', locals: {resource: @event} %>
+              <%= render partial: 'common/prerequisites_display', locals: {resource: @event} %>
+
               <% if @event.organizer and !@event.organizer.blank? %>
                   <p><strong>Organizer:</strong>
                     <%= @event.organizer %></p>
@@ -116,6 +119,9 @@
                   <p><strong>Host institution:</strong>
                     <%= @event.host_institutions.join(', ') %></p>
               <% end %>
+
+
+
 
               <% if @event.start and !@event.start.blank? %>
                   <p><strong>Start:</strong>
@@ -251,6 +257,8 @@
               <% if policy(@event).update? && @event.edit_suggestion %>
                   <%= render partial: 'common/approve_term_suggestions', locals: { suggestion: @event.edit_suggestion } %>
               <% end %>
+
+              <%#= @event.learning_tree.html_safe %>
 
             </div>
           </div>

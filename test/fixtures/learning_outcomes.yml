@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+success_lo_material:
+  resource: material_with_learning_outcomes (Material)
+  verb: find
+  noun: algorithms
+
+
+success_lo_event:
+  resource: event_with_learning_outcomes (Event)
+  verb: big data
+  noun: interpret
+
+
+failed_lo_material:
+  resource: material_with_learning_outcomes (Material)
+  verb: Crouching
+  noun: Tiger
+
+
+failed_lo_event:
+  resource: event_with_learning_outcomes (Event)
+  verb: Bobbing
+  noun: Duck
+

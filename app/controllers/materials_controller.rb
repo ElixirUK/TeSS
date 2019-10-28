@@ -145,7 +145,10 @@ class MaterialsController < ApplicationController
                                      :licence, :difficulty_level, {:contributors => []},
                                      {:authors => []}, {:target_audience => []}, {:node_ids => []}, {:node_names => []},
                                      external_resources_attributes: [:id, :url, :title, :_destroy], event_ids: [],
-                                     locked_fields: [])
+                                     locked_fields: [],
+                                     learning_outcomes_attributes: [:id, :verb, :noun, :tool_id, :tool_name, :_destroy],
+                                     prerequisites_attributes: [:id, :verb, :noun, :tool_id, :tool_name, :_destroy]
+    )
   end
 
 

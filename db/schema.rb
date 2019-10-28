@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_14_084942) do
+ActiveRecord::Schema.define(version: 2019_10_15_134651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +169,18 @@ ActiveRecord::Schema.define(version: 2019_08_14_084942) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "learning_outcomes", force: :cascade do |t|
+    t.string "verb"
+    t.string "noun"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "tool_id"
+    t.string "tool_name"
+    t.index ["resource_type", "resource_id"], name: "index_learning_outcomes_on_resource_type_and_resource_id"
+  end
+
   create_table "link_monitors", force: :cascade do |t|
     t.string "url"
     t.integer "code"
@@ -279,6 +291,18 @@ ActiveRecord::Schema.define(version: 2019_08_14_084942) do
     t.datetime "image_updated_at"
     t.index ["slug"], name: "index_packages_on_slug", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
+  end
+
+  create_table "prerequisites", force: :cascade do |t|
+    t.string "verb"
+    t.string "noun"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "tool_id"
+    t.string "tool_name"
+    t.index ["resource_type", "resource_id"], name: "index_prerequisites_on_resource_type_and_resource_id"
   end
 
   create_table "profiles", force: :cascade do |t|

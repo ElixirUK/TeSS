@@ -677,6 +677,8 @@ class EventsControllerTest < ActionController::TestCase
     assert_equal 'http://www.reddit.com', resource.url
   end
 
+
+
   test 'should sanitize description when creating event' do
     sign_in users(:regular_user)
 
@@ -1196,4 +1198,146 @@ class EventsControllerTest < ActionController::TestCase
     # Search params
     assert_equal 'search', assigns(:search_params)
   end
+
+
+  test 'should add learning outcome to event' do
+    sign_in @event.user
+
+    assert_difference('LearningOutcome.count', 1) do
+      patch :update, params: {
+          id: @event,
+          event: {
+              title: 'New title',
+              description: 'New description',
+              url: 'http://new.url.com',
+              learning_outcomes_attributes: { "1" => { verb: 'find', noun: "algorithms", resource: @event, _destroy: '0' } }
+          }
+      }
+    end
+
+    assert_redirected_to event_path(assigns(:event))
+    outcome = assigns(:event).learning_outcomes.first
+    assert_equal 'find', outcome.verb
+    assert_equal 'algorithms', outcome.noun
+    assert_equal @event, outcome.resource
+  end
+
+  test 'should remove learning outcome from event' do
+    event = events(:event_with_learning_outcomes)
+    outcome = event.learning_outcomes.first
+    sign_in event.user
+
+    assert_difference('LearningOutcome.count', -1) do
+      patch :update, params: {
+          id: event,
+          event: {
+              title: 'New title',
+              description: 'New description',
+              url: 'http://new.url.com',
+              learning_outcomes_attributes: { "0" => { id: outcome.id, _destroy: '1' } }
+          }
+      }
+    end
+
+    assert_redirected_to event_path(assigns(:event))
+    assert_equal 1, assigns(:event).learning_outcomes.count
+  end
+
+
+  test 'should modify learning outcomes from event' do
+    event = events(:event_with_learning_outcomes)
+    outcome = event.learning_outcomes.first
+    sign_in event.user
+
+    assert_no_difference('LearningOutcome.count') do
+      patch :update, params: {
+          id: event,
+          event: {
+              title: 'New title',
+              description: 'New description',
+              url: 'http://new.url.com',
+              learning_outcomes_attributes: { "1" => {id: outcome.id, verb: 'find', noun: 'algorithms', _destroy: '0' } }
+          }
+      }
+    end
+
+    assert_redirected_to event_path(assigns(:event))
+    assert_equal 'find', outcome.reload.verb
+    assert_equal 'algorithms', outcome.reload.noun
+    assert_equal event, outcome.reload.resource
+  end
+
+
+
+
+  test 'should add prerequisite to event' do
+    sign_in @event.user
+
+    assert_difference('Prerequisite.count', 1) do
+      patch :update, params: {
+          id: @event,
+          event: {
+              title: 'New title',
+              description: 'New description',
+              url: 'http://new.url.com',
+              prerequisites_attributes: { "1" => { verb: 'find', noun: "algorithms", resource: @event, _destroy: '0' } }
+          }
+      }
+    end
+
+    assert_redirected_to event_path(assigns(:event))
+    outcome = assigns(:event).prerequisites.first
+    assert_equal 'find', outcome.verb
+    assert_equal 'algorithms', outcome.noun
+    assert_equal @event, outcome.resource
+  end
+
+  test 'should remove prerequisite from event' do
+    event = events(:event_with_prerequisites)
+    outcome = event.prerequisites.first
+    sign_in event.user
+
+    assert_difference('Prerequisite.count', -1) do
+      patch :update, params: {
+          id: event,
+          event: {
+              title: 'New title',
+              description: 'New description',
+              url: 'http://new.url.com',
+              prerequisites_attributes: { "0" => { id: outcome.id, _destroy: '1' } }
+          }
+      }
+    end
+
+    assert_redirected_to event_path(assigns(:event))
+    assert_equal 1, assigns(:event).prerequisites.count
+  end
+
+
+  test 'should modify prerequisites from event' do
+    event = events(:event_with_prerequisites)
+    outcome = event.prerequisites.first
+    sign_in event.user
+
+    assert_no_difference('Prerequisite.count') do
+      patch :update, params: {
+          id: event,
+          event: {
+              title: 'New title',
+              description: 'New description',
+              url: 'http://new.url.com',
+              prerequisites_attributes: { "1" => {id: outcome.id, verb: 'find', noun: 'algorithms', _destroy: '0' } }
+          }
+      }
+    end
+
+    assert_redirected_to event_path(assigns(:event))
+    assert_equal 'find', outcome.reload.verb
+    assert_equal 'algorithms', outcome.reload.noun
+    assert_equal event, outcome.reload.resource
+  end
+
+
+
+
 end

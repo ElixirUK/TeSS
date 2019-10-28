@@ -16,7 +16,13 @@
 </script>
 <%= simple_form_for @event, html: { id: 'event_form' }  do |f| %>
 
+
     <%= render partial: 'common/error_summary', locals: { resource: @event } %>
+
+
+    <% if policy(@event).add_learning_statements? and controller.action_name == 'edit' %>
+        <%= render partial: 'common/learning_statements', locals: {f: f, resource: @event} %>
+    <% end %>
 
     <div class="form-group">
       <%= label_tag('type')%> <br/>
@@ -44,6 +50,7 @@
     <%= f.input :start, as: :datetime_picker, field_lock: true %>
 
     <%= f.input :end, as: :datetime_picker, field_lock: true %>
+
 
     <div class="address_content">
       <%= render partial: 'events/partials/address_finder', locals: { f: f } %>
@@ -130,4 +137,22 @@
 <div id="external-resource-template" style="display: none">
   <%= render partial: 'common/external_resource_form',
              locals: { form_name: 'event', external_resource: ExternalResource.new } %>
+</div>
+
+<div id="learning-outcomes-template" style="display: none">
+  <%= render partial: 'common/learning_statement_form',
+             locals: {
+                 form_name: 'event',
+                 statement: LearningOutcome.new,
+                 statement_type: 'learning_outcome'
+             } %>
+</div>
+
+<div id="prerequisites-template" style="display: none">
+  <%= render partial: 'common/learning_statement_form',
+             locals: {
+                 form_name: 'event',
+                 statement: Prerequisite.new,
+                 statement_type: 'prerequisite'
+             } %>
 </div>

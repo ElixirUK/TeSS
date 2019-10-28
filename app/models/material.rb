@@ -14,6 +14,7 @@ class Material < ApplicationRecord
   include HasSuggestions
   include IdentifiersDotOrg
   include HasFriendlyId
+  include HasLearningStatements
 
   if TeSS::Config.solr_enabled
     # :nocov:

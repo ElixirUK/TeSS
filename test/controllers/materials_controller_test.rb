@@ -1117,4 +1117,146 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_select '.identifiers-button'
     assert_select '#identifiers-link[value=?]', "http://example.com/identifiers/banana:m#{@material.id}"
   end
+
+
+  test 'should add learning outcome to material' do
+    sign_in @material.user
+
+    assert_difference('LearningOutcome.count', 1) do
+      patch :update, params: {
+          id: @material,
+          material: {
+              title: 'New title',
+              short_description: 'New description',
+              url: 'http://new.url.com',
+              learning_outcomes_attributes: { "1" => { verb: 'find', noun: "algorithms", resource: @material, _destroy: '0' } }
+          }
+      }
+    end
+
+    assert_redirected_to material_path(assigns(:material))
+    outcome = assigns(:material).learning_outcomes.first
+    assert_equal 'find', outcome.verb
+    assert_equal 'algorithms', outcome.noun
+    assert_equal @material, outcome.resource
+  end
+
+  test 'should remove learning outcome from material' do
+    material = materials(:material_with_learning_outcomes)
+    outcome = material.learning_outcomes.first
+    sign_in material.user
+
+    assert_difference('LearningOutcome.count', -1) do
+      patch :update, params: {
+          id: material,
+          material: {
+              title: 'New title',
+              short_description: 'New description',
+              url: 'http://new.url.com',
+              learning_outcomes_attributes: { "0" => { id: outcome.id, _destroy: '1' } }
+          }
+      }
+    end
+
+    assert_redirected_to material_path(assigns(:material))
+    assert_equal 1, assigns(:material).learning_outcomes.count
+  end
+
+
+  test 'should modify learning outcomes from material' do
+    material = materials(:material_with_learning_outcomes)
+    outcome = material.learning_outcomes.last
+    sign_in material.user
+
+    assert_no_difference('LearningOutcome.count') do
+      patch :update, params: {
+          id: material,
+          material: {
+              title: 'New title',
+              short_description: 'New description',
+              url: 'http://new.url.com',
+              learning_outcomes_attributes: { "1" => {id: outcome.id, verb: 'find', noun: 'algorithms', _destroy: '0' } }
+          }
+      }
+    end
+
+    assert_redirected_to material_path(assigns(:material))
+    assert_equal 'find', outcome.reload.verb
+    assert_equal 'algorithms', outcome.reload.noun
+    assert_equal material, outcome.reload.resource
+  end
+
+
+
+
+  test 'should add prerequisite to material' do
+    sign_in @material.user
+
+    assert_difference('Prerequisite.count', 1) do
+      patch :update, params: {
+          id: @material,
+          material: {
+              title: 'New title',
+              short_description: 'New description',
+              url: 'http://new.url.com',
+              prerequisites_attributes: { "1" => { verb: 'find', noun: "algorithms", resource: @material, _destroy: '0' } }
+          }
+      }
+    end
+
+    assert_redirected_to material_path(assigns(:material))
+    outcome = assigns(:material).prerequisites.first
+    assert_equal 'find', outcome.verb
+    assert_equal 'algorithms', outcome.noun
+    assert_equal @material, outcome.resource
+  end
+
+  test 'should remove prerequisite from material' do
+    material = materials(:material_with_prerequisites)
+    outcome = material.prerequisites.first
+    sign_in material.user
+
+    assert_difference('Prerequisite.count', -1) do
+      patch :update, params: {
+          id: material,
+          material: {
+              title: 'New title',
+              short_description: 'New description',
+              url: 'http://new.url.com',
+              prerequisites_attributes: { "0" => { id: outcome.id, _destroy: '1' } }
+          }
+      }
+    end
+
+    assert_redirected_to material_path(assigns(:material))
+    assert_equal 1, assigns(:material).prerequisites.count
+  end
+
+
+  test 'should modify prerequisites from material' do
+    material = materials(:material_with_prerequisites)
+    outcome = material.prerequisites.first
+    sign_in material.user
+
+    assert_no_difference('Prerequisite.count') do
+      patch :update, params: {
+          id: material,
+          material: {
+              title: 'New title',
+              short_description: 'New description',
+              url: 'http://new.url.com',
+              prerequisites_attributes: { "1" => {id: outcome.id, verb: 'find', noun: 'algorithms', _destroy: '0' } }
+          }
+      }
+    end
+
+    assert_redirected_to material_path(assigns(:material))
+    assert_equal 'find', outcome.reload.verb
+    assert_equal 'algorithms', outcome.reload.noun
+    assert_equal material, outcome.reload.resource
+  end
+
+
+
+
 end

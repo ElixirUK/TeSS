@@ -1,0 +1,62 @@
+<!--
+Go through all prerequisites
+  List each resource
+    If resource relates to more than one prerequisite, add a sub-list of those resources
+-->
+
+<% if resource.prerequisites and !resource.prerequisites.empty? %>
+  <% prerequisite_resources = resource.prerequisite_resources(grouped_by='prerequisites') %><%# All prerequisites%>
+  <% resource_prerequisites = resource.prerequisite_resources(grouped_by='resources') %><%# Extra info about what other prerequisites material satisfies%>
+    <p><strong>Before attending this course, you should be able to:</strong></p>
+    <ul>
+      <!-- go through all prerequisites -->
+      <% prerequisite_resources.each do |prerequisite, recommended_resources| %>
+          <li>
+            <% if recommended_resources and recommended_resources.any? %>
+                  <!-- Print the prerequisite -->
+                  <span class="show-suggested-resources">
+                    <%= print_learning_statement(prerequisite) %>
+
+                    <em>(see <%= pluralize(recommended_resources.count, "suggestion")%> to learn how to
+                      <%= print_learning_statement(prerequisite) %>
+                      )</em>
+                  </span>
+
+                <!-- Print the recommended resources -->
+                <div class="hidden suggested-resources">
+                  <em>These resources are recommended to help you master this pre-requisite</em>
+                  <ul>
+                    <% recommended_resources.each do |recommended_resource| %>
+                      <!-- link to resource -->
+                      <li><%= link_to "#{recommended_resource.title} (#{recommended_resource.class})", recommended_resource, options: {target: "_blank"} %></li>
+                      <!-- Show learning outcomes of this recommended resource -->
+                      <% if recommended_resource.learning_outcomes and recommended_resource.learning_outcomes.any? %>
+                        This course will teach you how to:
+                        <ul>
+                            <!-- Go through the learning outcomes of the recommended resource -->
+                            <% recommended_resource.learning_outcomes.each do |rr_learning_outcome| %>
+                              <!-- if the learning outcome matches this prerequisite  -->
+                              <% if rr_learning_outcome.equals?(prerequisite) %>
+                                <li><b><%= print_learning_statement(rr_learning_outcome) %></b></li>
+                              <!-- elisif the learning outcome matches the prerequisite of another prerequisite  -->
+                              <% elsif resource_prerequisites[recommended_resource].any?{|rr_pre_req| rr_pre_req.equals?(rr_learning_outcome)} %>
+                                <li><em><%= print_learning_statement(rr_learning_outcome) %></em> (fulfils another pre-requisite of this resource)</li>
+                              <% else %>
+                                <li><%= print_learning_statement(rr_learning_outcome) %></li>
+                              <% end  %>
+                          <% end %>
+                        </ul>
+                      <% end %>
+                        <br>
+                    <% end %>
+                  </ul>
+                </div>
+            <% else %>
+              <!-- No resources to help you with this prerequisite -->
+              <%= print_learning_statement(prerequisite) %>
+            <% end %>
+          </li>
+
+      <% end %>
+    </ul>
+<% end %>

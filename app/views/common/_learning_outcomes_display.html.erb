@@ -1,0 +1,11 @@
+
+<% if resource.learning_outcomes and !resource.learning_outcomes.empty? %>
+  <p><strong>After completing this course, you will be able to:</strong></p>
+  <ul>
+    <%  resource.learning_outcomes.each do |learning_outcome| %>
+      <li>
+        <%= print_learning_statement(learning_outcome) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -21,6 +21,7 @@
 //= require split
 //= require handlebars.runtime
 //= require handlebars_helpers
+//= require edam-select
 //= require masonry.pkgd
 //= require imagesloaded.pkgd
 //= require markdown-it
@@ -30,6 +31,7 @@
 //= require devbridge-autocomplete
 //= require clipboard
 //= require url_checker
+//= require choices.js
 //= require_tree ./templates
 //= require_tree .
 //= require_self
@@ -248,6 +250,13 @@ $(document).on('click', '.delete-list-item', function () {
     $(this).parents('li').remove();
     return false;
 });
+
+$(document).on('click', '.show-suggested-resources', function () {
+    var suggested_resources = $(this).siblings('.suggested-resources');
+    suggested_resources.toggleClass("hidden");
+    return false;
+});
+
 
 $(document).on('shown.bs.tab', '[href="#activity_log"]', function () {
     var tabPane = $('#activity_log');
