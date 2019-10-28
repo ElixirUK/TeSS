@@ -24,7 +24,7 @@ class ExternalResourceTest < ActiveSupport::TestCase
 
   test 'get API url of resource' do
     api_url = external_resources(:biotwools).api_url_of_tool
-    assert_equal 'https://bio.tools/api/tool/FuNeL', api_url
+    assert_equal 'https://bio.tools/api/tool/FuNeL?format=json', api_url
 
     assert_nil external_resources(:google).api_url_of_tool
   end
