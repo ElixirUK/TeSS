@@ -2,7 +2,7 @@
 
     <%= render partial: 'common/error_summary', locals: { resource: @material } %>
 
-    <% if policy(@material).add_learning_statements? and ['edit'].include? controller.action_name %>
+    <% if policy(@material).add_learning_statements?  %>
         <%= render partial: 'common/learning_statements', locals: {f: f, resource: @material} %>
     <% end %>
 
@@ -16,10 +16,6 @@
     <%= f.input :short_description, as: :markdown_area, input_html: { rows: '5' }, field_lock: true %>
 
     <%= f.input :long_description, as: :markdown_area, input_html: { rows: '10' }, field_lock: true %>
-
-    <% if policy(@material).add_learning_statements? and ['new', 'create'].include? controller.action_name %>
-        <%= render partial: 'common/learning_statements', locals: {f: f, resource: @material} %>
-    <% end %>
 
     <%= f.input :doi, field_lock: true %>
 
