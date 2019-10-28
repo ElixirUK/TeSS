@@ -71,7 +71,8 @@ var Biotools = {
                     ' <i id="' + item.biotoolsID + '" ' +
                     'class="fa fa-plus-square-o associate-tool"/ ' +
                     'title="click to associate ' + item.name + ' with this resource"' +
-                    'data-title="' + item.name + '" data-url="' + url + '"/>' +
+                    'data-title="' + item.name +
+                    '" data-url="' + Biotools.websiteBaseURL() + '/' + item.biotoolsID + '"/>' +
                 '</h4>' +
                 '<p>' + types + '</p>' +
                 '<span>' + truncateWithEllipses(item.description, 600) + '</span>' +

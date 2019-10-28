@@ -21,7 +21,7 @@ class ExternalResource < ApplicationRecord
   end
 
   def api_url_of_tool
-    "#{BIOTOOLS_BASE}/api#{tool_id}" if is_tool?
+    "#{BIOTOOLS_BASE}/api#{tool_id}?format=json" if is_tool?
   end
 
   def api_url_of_fairsharing
