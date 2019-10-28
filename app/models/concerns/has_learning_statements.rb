@@ -40,7 +40,11 @@ module HasLearningStatements
     # Collect all the materials for each prerequisite of this resource
     prerequisites.each do |prerequisite|
       matching_resources = prerequisite.matching_learning_outcomes
-      prereq_resources[prerequisite] = prerequisite.matching_learning_outcomes unless matching_resources.blank?
+      if matching_resources.blank?
+        prereq_resources[prerequisite] = []
+      else
+        prereq_resources[prerequisite] = prerequisite.matching_learning_outcomes
+      end
     end
 
     grouped_by == 'resources' ? flip_groupings(prereq_resources) : prereq_resources
