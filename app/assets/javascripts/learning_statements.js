@@ -107,6 +107,7 @@ function initialize_dictionary_selector(statement_type, dictionary_type, index){
         placeholder: true,
         placeholderValue: 'Find a ' + dictionary_type,
         maxItemCount: 20,
+        searchResultLimit: 20,
         searchChoices: true,
         duplicateItemsAllowed: false,
         removeItemButton: true,

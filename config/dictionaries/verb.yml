@@ -1,25 +1,267 @@
-load:
-  title: load
-  definition: blfdjskfdjslk
-find:
-  title: find
-  definition: blfdjskfdjslk
-produce:
-  title: produce
-  definition: blfdjskfdjslk
-recreate:
-  title: recreate
-  definition: blfdjskfdjslk
-extend:
-  title: extend
-  definition: blfdjskfdjslk
-synthesise:
-  title: synthesise
-  definition: blfdjskfdjslk
-critque:
-  title: critque
-  definition: blfdjskfdjslk
+adapt:
+  title: adapt
+  definition:
+anticipate:
+  title: anticipate
+  definition:
+analyse:
+  title: analyse
+  definition:
+apply:
+  title: apply
+  definition:
+assemble:
+  title: assemble
+  definition:
+arrange:
+  title: arrange
+  definition:
+assess:
+  title: assess
+  definition:
+build:
+  title: build
+  definition:
+associate:
+  title: associate
+  definition:
+calculate:
+  title: calculate
+  definition:
+choose:
+  title: choose
+  definition:
+categorise:
+  title: categorise
+  definition:
+classify:
+  title: classify
+  definition:
+collect:
+  title: collect
+  definition:
+collaborate:
+  title: collaborate
+  definition:
+combine:
+  title: combine
+  definition:
+compile:
+  title: compile
+  definition:
+compare:
+  title: compare
+  definition:
+compute:
+  title: compute
+  definition:
+connect:
+  title: connect
+  definition:
+conduct:
+  title: conduct
+  definition:
+convert:
+  title: convert
+  definition:
+count:
+  title: count
+  definition:
+correlate:
+  title: correlate
+  definition:
+decide:
+  title: decide
+  definition:
+demonstrate:
+  title: demonstrate
+  definition:
+define:
+  title: define
+  definition:
+describe:
+  title: describe
+  definition:
+determine:
+  title: determine
+  definition:
+design:
+  title: design
+  definition:
+develop:
+  title: develop
+  definition:
+discuss:
+  title: discuss
+  definition:
+devise:
+  title: devise
+  definition:
+distinguish:
+  title: distinguish
+  definition:
+evaluate:
+  title: evaluate
+  definition:
+estimate:
+  title: estimate
+  definition:
+experiment:
+  title: experiment
+  definition:
+express:
+  title: express
+  definition:
+explain:
+  title: explain
+  definition:
+facilitate:
+  title: facilitate
+  definition:
+give examples:
+  title: give examples
+  definition:
+find errors:
+  title: find errors
+  definition:
+group:
+  title: group
+  definition:
+identify:
+  title: identify
+  definition:
+hypothesize:
+  title: hypothesize
+  definition:
+imagine:
+  title: imagine
+  definition:
+inspect:
+  title: inspect
+  definition:
+infer:
+  title: infer
+  definition:
+integrate:
+  title: integrate
+  definition:
+judge:
+  title: judge
+  definition:
 interpret:
   title: interpret
-  definition: blfdjskfdjslk
-
+  definition:
+justify:
+  title: justify
+  definition:
+locate:
+  title: locate
+  definition:
+list:
+  title: list
+  definition:
+manage:
+  title: manage
+  definition:
+measure:
+  title: measure
+  definition:
+manipulate:
+  title: manipulate
+  definition:
+modify:
+  title: modify
+  definition:
+organise:
+  title: organise
+  definition:
+order:
+  title: order
+  definition:
+plan:
+  title: plan
+  definition:
+point out:
+  title: point out
+  definition:
+plot:
+  title: plot
+  definition:
+practice:
+  title: practice
+  definition:
+prepare:
+  title: prepare
+  definition:
+predict:
+  title: predict
+  definition:
+prioritize:
+  title: prioritize
+  definition:
+rank:
+  title: rank
+  definition:
+produce:
+  title: produce
+  definition:
+recognise:
+  title: recognise
+  definition:
+reproduce:
+  title: reproduce
+  definition:
+represent:
+  title: represent
+  definition:
+revise:
+  title: revise
+  definition:
+schematise:
+  title: schematise
+  definition:
+schedule job:
+  title: schedule job
+  definition:
+score:
+  title: score
+  definition:
+show:
+  title: show
+  definition:
+select:
+  title: select
+  definition:
+simulate:
+  title: simulate
+  definition:
+specify:
+  title: specify
+  definition:
+solve:
+  title: solve
+  definition:
+structure:
+  title: structure
+  definition:
+support:
+  title: support
+  definition:
+summarise:
+  title: summarise
+  definition:
+test:
+  title: test
+  definition:
+use:
+  title: use
+  definition:
+transfer:
+  title: transfer
+  definition:
+visualise:
+  title: visualise
+  definition:
+write:
+  title: write
+  definition:

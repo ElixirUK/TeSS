@@ -40,11 +40,11 @@ module HasLearningStatements
     # Collect all the materials for each prerequisite of this resource
     prerequisites.each do |prerequisite|
       matching_resources = prerequisite.matching_learning_outcomes
-      if matching_resources.blank?
-        prereq_resources[prerequisite] = []
-      else
-        prereq_resources[prerequisite] = prerequisite.matching_learning_outcomes
-      end
+      prereq_resources[prerequisite] = if matching_resources.blank?
+                                         []
+                                       else
+                                         prerequisite.matching_learning_outcomes
+                                       end
     end
 
     grouped_by == 'resources' ? flip_groupings(prereq_resources) : prereq_resources
@@ -99,8 +99,8 @@ module HasLearningStatements
         next if seen.include?(resource)
 
         required_trainings << {
-          resource: resource,
-          pre_req: pre_req
+            resource: resource,
+            pre_req: pre_req
         }
       end
     end
@@ -116,8 +116,8 @@ module HasLearningStatements
         branch << if sub_tree.blank?
                     required_training
                   else
-                    { required_training => sub_tree }
-                     end
+                    {required_training => sub_tree}
+                  end
         seen.pop
       end
     end
