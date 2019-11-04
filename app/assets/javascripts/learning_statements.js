@@ -149,7 +149,7 @@ function initialize_edam_selector(statement_type, index){
 
 
 // Uses Choices.js https://github.com/jshjohnson/Choices/tree/v7.0.0
-// Baked in at; https://github.com/jshjohnson/Choices/tree/5cf226f16643838b9a4232f2fc42c134e6096025
+// Baked in at; https://raw.githubusercontent.com/jshjohnson/Choices/5cf226f16643838b9a4232f2fc42c134e6096025/public/assets/scripts/choices.js
 // Guide to using Choices.js for remote lookup service: https://github.com/jshjohnson/Choices/issues/162
 function initialize_tool_selector(statement_type, index){
 
@@ -166,8 +166,20 @@ function initialize_tool_selector(statement_type, index){
     //Copy selection to hidden field ready for submission
     //This hidden field ID is in the necessary format dictated by accepts_nested_attributes_for
     tool_selector.element.addEventListener('change', function(event){
-        $('#' + event.target.dataset.hiddenId + '_id').val(event.detail.value);
-        $('#' + event.target.dataset.hiddenId + '_name').val(event.target.textContent);
+        let subform_id = event.target.dataset["subformId"];
+        let tools_form_element = document.getElementById(subform_id);
+
+        if (event.detail.value === BioToolsSelector.newToolText()){
+            tools_form_element.style.display = 'block';
+            $('#' + event.target.dataset.hiddenId + '_id').val('');
+            $('#' + event.target.dataset.hiddenId + '_name').val('');
+
+        } else {
+            tools_form_element.style.display = 'none';
+            $('#' + event.target.dataset.hiddenId + '_id').val("https://bio.tools/" + event.detail.value);
+            $('#' + event.target.dataset.hiddenId + '_name').val(event.target.textContent);
+        }
+
     });
 
     BIOTOOLS_SELECTORS[html_element_id] = tool_selector
@@ -235,4 +247,8 @@ document.addEventListener("turbolinks:load", function() {
         .on('click', '#add-prerequisites-btn', Prerequisites.add)
         .on('change', '.delete-learning-statement-btn input.destroy-attribute', Prerequisites.delete);
     initialize_selectors('prerequisites')
+
+//    $('[data-url-check]').blur((self)=>{console.log(self);UrlChecker.validUrl(self.target, self.val())});
+
+
 });

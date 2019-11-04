@@ -18,6 +18,12 @@ params:
 <% text['learning_outcome'] = 'After this course, you will be able to ' %>
 
 <div class="form-inline learning-statement-form <%=css_statement_type%>-form" data-index="<%= index -%>" data-form-type="<%= form_name %>">
+
+  <label class="delete-learning-statement-btn ">
+    &times;
+    <%= hidden_field_tag "#{field_name_prefix}[_destroy]", '0', :autocomplete => 'off' %>
+    <%= check_box_tag "#{field_name_prefix}[_destroy]", '1', false, :class => 'destroy-attribute', :autocomplete => 'off' %>
+  </label>
     <%= hidden_field_tag("#{field_name_prefix}[id]", statement.id) %>
 
     <%= text[statement_type] %>
@@ -58,15 +64,30 @@ params:
               data-hidden-id="<%= "#{form_name}_#{statement_type.pluralize}_attributes_#{index}_tool"-%>"
               id="<%=field_id_prefix_tool%>"
               placeholder="Search Bio.tools"
+              data-subform-id="<%="#{field_id_prefix_tool}_subform"%>"
               data-lpignore="true">
       </select>
-      <%= hidden_field_tag("#{field_name_prefix}[tool_id]", statement.tool_id) %>
-      <%= hidden_field_tag("#{field_name_prefix}[tool_name]", statement.tool_name) %>
     </div>
 
-    <label class="delete-learning-statement-btn ">
-      &times;
-      <%= hidden_field_tag "#{field_name_prefix}[_destroy]", '0', :autocomplete => 'off' %>
-      <%= check_box_tag "#{field_name_prefix}[_destroy]", '1', false, :class => 'destroy-attribute', :autocomplete => 'off' %>
-    </label>
+    <div class="tool_sub_form" id="<%="#{field_id_prefix_tool}_subform"%>">
+      <%= label_tag("Add a custom technology") %>
+      <div class="form-group">
+        <%= text_field_tag("#{field_name_prefix}[tool_name]",
+                           statement.tool_name,
+                           class: " form-control",
+                           placeholder: 'Enter the name of a tool') %>
+      </div>
+
+      <div class="form-group">
+        <%= text_field_tag("#{field_name_prefix}[tool_id]",
+                           statement.tool_id,
+                           class: " form-control",
+                           placeholder: 'Add a link to the tool',
+                           hint: ' ',
+                           #data: {'url-check': "/#{form_name.pluralize}/check_exists"}
+                           )
+        %>
+      </div>
+    </div>
+
 </div>

@@ -4,6 +4,12 @@ var lookupCache = {};
 
 class BioToolsSelector {
 
+    static newToolText(){
+        return  "<div class=''>" +
+                    "<i class='glyphicon glyphicon-plus'></i> Custom tool" +
+                "</div>"
+    }
+
     constructor(id, preset_id, preset_value){
         var config = {
             placeholder: true,
@@ -13,6 +19,10 @@ class BioToolsSelector {
             duplicateItemsAllowed: false,
             removeItemButton: true,
             shouldSort: false,
+            addItems: true,
+            addItemText: (value) => {
+                return `Press Enter to add <b>"${value}"</b>`;
+            },
             noChoicesText: 'Start typing to query bio.tools',
             itemSelectText: '',
             searchFields: ['label', 'value']
@@ -24,7 +34,9 @@ class BioToolsSelector {
                 selected: true
             }]
         }
-
+        //config['choices'].push({
+        //    value: BioToolsSelector.newToolText()
+        //})
         this.element = $(id)[0];
         this.selector = new Choices(this.element, config);
 
@@ -37,8 +49,20 @@ class BioToolsSelector {
         });
     }
 
+
+
     static populateChoices(selector, returned_choices){
-        selector.setChoices(returned_choices.list, 'biotoolsID', 'name', 'description', true);
+         var choices = [];
+         returned_choices.list.forEach(function(element){
+           choices.push({
+                 value: element.biotoolsID,
+                 label: element.name
+           })
+         });
+         choices.push({
+             value: BioToolsSelector.newToolText()
+         })
+         selector.setChoices(choices, 'value', 'label', true);
     }
 
     /* params:
