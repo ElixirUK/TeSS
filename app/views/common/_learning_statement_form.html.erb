@@ -71,17 +71,18 @@ params:
 
     <div class="tool_sub_form" id="<%="#{field_id_prefix_tool}_subform"%>">
       <%= label_tag("Add a custom technology") %>
-      <div class="form-group">
+      <br>
+      <div class="form-group" style="width:100%;">
         <%= text_field_tag("#{field_name_prefix}[tool_name]",
                            statement.tool_name,
                            class: " form-control",
+                           style: "width:100%;",
                            placeholder: 'Enter the name of a tool') %>
-      </div>
 
-      <div class="form-group">
         <%= text_field_tag("#{field_name_prefix}[tool_id]",
                            statement.tool_id,
                            class: " form-control",
+                           style: "width:100%;",
                            placeholder: 'Add a link to the tool',
                            hint: ' ',
                            #data: {'url-check': "/#{form_name.pluralize}/check_exists"}
