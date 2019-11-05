@@ -994,3 +994,10 @@ input[type=checkbox].field-lock + label:before, .field-lock-example-open {
   padding: 20px;
   border-radius: 20px;
 }
+.tool_sub_form{
+  margin-top: 30px;
+  padding: 20px;
+  background-color: lightblue;
+  display: none;
+  z-index: 99999;
+}
