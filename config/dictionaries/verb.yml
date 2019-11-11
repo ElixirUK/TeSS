@@ -265,3 +265,15 @@ visualise:
 write:
   title: write
   definition:
+perform:
+  title: perform
+  definition:
+create:
+  title: create
+  definition:
+read:
+  title: read
+  definition:
+navigate:
+  title: navigate
+  definition:

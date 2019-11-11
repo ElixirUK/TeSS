@@ -1498,3 +1498,99 @@ Weighted correlation network analysis:
 Whole genome methylation analysis:
   title: Whole genome methylation analysis
   definition:
+programming:
+  title: programming
+  definition:
+reproducibility:
+  title: reproducibility
+  definition:
+notebooks:
+  title: notebooks
+  definition:
+literate programming:
+  title: literate programming
+  definition:
+version control:
+  title: version control
+  definition:
+machine learning:
+  title: machine learning
+  definition:
+command-line:
+  title: command-line
+  definition:
+programs:
+  title: programs
+  definition:
+whole exome sequencing:
+  title: whole exome sequencing
+  definition:
+whole genome sequencing:
+  title: whole genome sequencing
+  definition:
+read quality:
+  title: read quality
+  definition:
+read trimming:
+  title: read trimming
+  definition:
+read filtering:
+  title: read filtering
+  definition:
+NGS file format:
+  title: NGS file format
+  definition:
+variant calling workflow:
+  title: variant calling workflow
+  definition:
+variant annotation:
+  title: variant annotation
+  definition:
+variant visualisation:
+  title: variant visualisation
+  definition:
+variant visualisation:
+  title: variant visualisation
+  definition:
+functional annotation:
+  title: functional annotation
+  definition:
+files:
+  title: files
+  definition:
+conditional statements:
+  title: conditional statements
+  definition:
+if statements:
+  title: if statements
+  definition:
+scripts:
+  title: scripts
+  definition:
+filesystem:
+  title: filesystem
+  definition:
+text editors:
+  title: text editors
+  definition:
+code:
+  title: code
+  definition:
+programs:
+  title: programs
+  definition:
+variables:
+  title: variables
+  definition:
+data types:
+  title: data types
+  definition:
+loops:
+  title: loops
+  definition:
+input from files:
+  title: input from files
+  definition:
+output to files:
+  title: output to files
+  definition:
