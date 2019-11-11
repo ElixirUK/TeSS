@@ -175,11 +175,26 @@ DNA vaccine design:
 DNA-binding protein prediction:
   title: DNA-binding protein prediction
   definition:
+Data archiving solutions for researchers:
+  title: Data archiving solutions for researchers
+  definition:
+Data archiving procedures for researchers:
+  title: Data archiving procedures for researchers
+  definition:
 Data handling:
   title: Data handling
   definition:
+Data management in lab:
+  title: Data management in lab
+  definition:
+Data repositories:
+  title: Data repositories
+  definition:
 Data retrieval:
   title: Data retrieval
+  definition:
+Data types:
+  title: Data types
   definition:
 Database comparison:
   title: Database comparison
@@ -280,6 +295,9 @@ Expression profile comparison:
 Expression profile pathway mapping:
   title: Expression profile pathway mapping
   definition:
+FAIR data principles:
+  title: FAIR data principles
+  definition:
 Filtering:
   title: Filtering
   definition:
@@ -306,6 +324,9 @@ Free cysteine detection:
   definition:
 Functional clustering:
   title: Functional clustering
+  definition:
+General research process:
+  title: General research process
   definition:
 Gene expression QTL analysis:
   title: Gene expression QTL analysis
@@ -1065,6 +1086,15 @@ Repeat sequence organisation analysis:
   definition:
 Representative sequence identification:
   title: Representative sequence identification
+  definition:
+Research data life cycle:
+  title: Research data life cycle
+  definition:
+Research data management plans into actions and tasks:
+  title: Research data management plans into actions and tasks
+  definition:
+Research data management policies into actions and tasks:
+  title: Research data management policies into actions and tasks
   definition:
 Residue bump detection:
   title: Residue bump detection
