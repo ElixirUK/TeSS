@@ -9,8 +9,10 @@ class CurationTask < ApplicationRecord
   validates :status, inclusion: ['open', 'resolved']
 
   KEY = ['update', 'locate', 'review_suggestions','delete']
-  validates :key, inclusion: ['update', 'locate', 'review_suggestions'] # TODO: Come up with some more tasks
+  validates :key, inclusion: ['update', 'locate', 'review_suggestions','delete'] # TODO: Come up with some more tasks
 
+  serialize :update_fields
+  
   PRIORITY = {
       low: -10,
       medium: 0,

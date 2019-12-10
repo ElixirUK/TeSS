@@ -1,5 +1,5 @@
 
-class LocationCuration
+class LocationCuration < DataProcessor
 
   GB_postcode_Official_regex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})\b/i
   # There is a space in front, so just numbers from a URL would not get accepted.
@@ -7,6 +7,10 @@ class LocationCuration
   NL_postcode_regex = /\d{4}\\s{0,1}[A-Za-z]{2}\b/i
 
   ONLINE_regex = /webinar|online/i
+
+  def name
+    return 'LocationCuration'
+  end
 
   def content
     return 'Event'
@@ -18,7 +22,6 @@ class LocationCuration
   
   def run(item)
     
-    if (item.curationList.get('LocationCuration')) return
     # Look for possible locations on the text
     postCode = extractPostCode(item.description)
     if postCode
@@ -28,16 +31,16 @@ class LocationCuration
       p postCode
       
       # Update given item
-      item.postcode = postCode
-      item.curationList.push = {'LocationCuration':false}
-      # item.save # do not save!! the curator will do that
+      # do not change!! the curator will do that
+      # item.postcode = postCode
+      # item.save
 
       # Create and link a curation task
       curationTask = CurationTask.new
       curationTask.key = 'locate'
       curationTask.resource = item
       curationTask.message = 'New location provided, confirm'
-      curationTask.updateFields = {postcode:postCode}
+      curationTask.update_fields = {postcode:postCode}
       curationTask.resource = item
       curationTask.save
       # curationTask = CurationTask.new(resource=item)
@@ -51,17 +54,14 @@ class LocationCuration
       p "ONLINE"
       p item.slug
 
-      item.online = true
-      item.save
-
       curationTask = CurationTask.new
-      curationTask.key = 'delete'
+      curationTask.key = 'locate'
       # Example of SPAM event, marked to be deleted, it requires a new curation_task view
       # curationTask.key = 'delete'
       # curationTask.message = 'Is this SPAM?'
-      # curationTask.updateFields = {}
+      curationTask.update_fields = {online:true}
       curationTask.message = 'The field says online. Check that the event is not online'
-      curationTask.updateFields = {online:true, latitude:nil, longitude:nil}
+      # curationTask.update_fields = {online:true, latitude:nil, longitude:nil}
       curationTask.resource = item
       curationTask.save
     end

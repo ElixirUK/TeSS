@@ -1,21 +1,23 @@
 # To add a task, create an object in the data_processors folder, and add its name to a new line in data_processor_list.txt
+log = 'log/data_processors.log' # The log file for this script, just mentions which scrapers are run.
 
 namespace :tess do
  
   desc 'Run data processors'
   task run_data_processors: :environment do
+    log_file = File.open(log, 'w')
+
     Dir['lib/tasks/data_processors/*.rb'].each do |file|
-      puts(file)
+      log_file.puts "Loading file: #{file}"
       load file
     end
 
     File.readlines(Dir['lib/tasks/data_processors/*.txt'].first).each do |taskName|
-      puts taskName
-      
+      log_file.puts "Running #{taskName}"
+
       begin
         # Instantiate the task from its name in the txt
         task = Object.const_get(taskName.chomp("\n")).new()
-        puts("content: #{task.content()}, selector '#{task.select()}'")
 
         # Select the content to act on
         query = Event if (task.content()=='Event')
@@ -23,11 +25,14 @@ namespace :tess do
 
         if (query)
           # Build the query
-          queryParams = task.select()
 
+          # Start discarding resources already run by this processor
+          query = query.where("'"+ task.name() + "' <> ALL (data_processor_list)")
+
+          # Break down each of the params given in the selection
+          queryParams = task.select()
           # New parameters will need to be added depending on the data_processors needs
-          p "latitude" if queryParams[:latitude]
-          p queryParams
+
           # TODO: we could connect this to a sunspot solr (search controller), to add more flexibility to the queries
           query = query.where(latitude:queryParams[:latitude]) if queryParams.key?(:latitude)
           query = query.where(longitude:queryParams[:longitude]) if queryParams.key?(:longitude)
@@ -39,16 +44,18 @@ namespace :tess do
           query.find_each do |item|
             count+=1
             task.run(item)
+            # mark item as processed
+            item.data_processor_list.push(task.name())
+            item.save
           end
-          puts "#{query.count} events processed"
+          log_file.puts "#{count} events processed"
         else
           # process incorrect content in data_processors
-          p "Incorrect value returned by content() function"
+          log_file.puts "Incorrect value returned by content() function"
         end
-      rescue => exception
-        puts (exception)
-        puts ("#{taskName.chomp("\n")} class cannot be instantiated")
-        puts ("Make sure there is a class (.rb) defining it in the data_processors folder")
+      rescue => e
+        log_file.puts e.message
+        log_file.puts e.backtrace.join("\n")
       end
     end
   end
