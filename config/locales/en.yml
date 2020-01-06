@@ -46,3 +46,6 @@ en:
     review_suggestions:
       title: "Review suggestions"
       description: "Approve or reject any scientific topic/operation suggestions for this %{type}."
+    datafield_suggestions:
+      title: "Review suggested fields"
+      description: "Different values have been suggested for some of the fields, please review highlighted items."

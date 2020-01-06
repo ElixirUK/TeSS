@@ -37,7 +37,7 @@ namespace :tess do
           query = query.where(latitude:queryParams[:latitude]) if queryParams.key?(:latitude)
           query = query.where(longitude:queryParams[:longitude]) if queryParams.key?(:longitude)
           query = query.where(postcode:queryParams[:postcode]) if queryParams.key?(:postcode)
-          # query = query.where(online:queryParams[:online]) if queryParams.key?(:online)
+          query = query.where(online:queryParams[:online]) if queryParams.key?(:online)
           # query = query.where(online:queryParams[:online]) if queryParams.key?(:dateBefore)
 
           count=0

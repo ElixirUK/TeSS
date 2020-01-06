@@ -1,0 +1,77 @@
+<% type = @curation_task.resource_type.underscore %>
+
+<%= render partial: "#{type.pluralize}/form", locals: { type.to_sym => @curation_task.resource } %>
+
+<% @curation_task.update_fields %>
+<script>
+
+
+  /**
+    * Changes the value of the suggested field to the suggested value
+    * Removes the button, and is responsible for any other styling to let
+    * the user know the suggestion has been resolved.
+    */
+  function onSuggestionClick(rb_type,fieldName,value){
+    let previousVal = '';
+
+    switch(fieldName) {
+      case "online":
+        $(`#${rb_type}_${fieldName}_${value}`).click();
+        $(`#${rb_type}_${fieldName}_${value}`).parent('.btn').css('border-color', 'green');
+        previousVal = !(value == 'true');
+        break;
+      
+      case "content_provider_id"://Dropdown
+        previousVal = $(`#${rb_type}_${fieldName}`).find(":selected").text()
+        $(`#${rb_type}_${fieldName} option`).filter(function() { 
+          return ($(this).text() == value);
+        }).prop('selected', true);       
+      break;
+
+      default:
+        previousVal = $(`#${rb_type}_${fieldName}`).val();
+        $(`#${rb_type}_${fieldName}`).val(value);
+    }
+    $(`button#${rb_type}_${fieldName}_button`).remove();
+    console.log(previousVal)
+    $(`#${rb_type}_${fieldName}_message`).css('color','green');
+    $(`#${rb_type}_${fieldName}_message`).text(`Previous value was "${previousVal}"`);
+  }
+
+
+  rb_type= <%= @curation_task.resource_type.inspect.html_safe %>.toLowerCase();
+  // this works
+  //console.log(JSON.parse('<%= @curation_task.update_fields.to_json.html_safe%>'))  
+  updateFields=JSON.parse('<%= @curation_task.update_fields.to_json.html_safe%>');
+  // TODO: change the updateFields, so it also includes a messsage for each particular field
+  main_message = <%= @curation_task.message.inspect.html_safe %>;
+
+  // Find each of the affected fields, and add suggestions around it
+  updateFields.forEach(item => {
+    fieldName=item.field ? item.field : '';
+    value=item.value ? item.value : '';
+    message=item.message ? item.message : '';
+    
+
+    // Depending on the field type, we might need to handle them differently
+    switch(fieldName) {
+      case "online":
+        // Online is a button, add a red border to the appropriate Online option
+        $(`#${rb_type}_${fieldName}_${value}`).parent('.btn').css('border-color', 'red');
+        
+        $(`#${rb_type}_${fieldName}_${value}`).parent('.btn').parent('.btn-group').after(`<div><button type="button" id="${rb_type}_${fieldName}_button" onclick="onSuggestionClick('${rb_type}','${fieldName}','${value}')">Accept change</button></div>`);
+
+        $(`#${rb_type}_${fieldName}_${value}`).parent('.btn').parent('.btn-group').after(`<div><b id="${rb_type}_${fieldName}_message" style="color:red">${message}</b></div>`);
+        break;
+        // TODO: Add cases for all the form inputs
+      default:
+        $(`<div><b id="${rb_type}_${fieldName}_message" style="color:red">${message}</b></div>`).append
+          (`<div>Suggestion <i>${value}</i></div>`).append
+          (`<div><button type="button" id="${rb_type}_${fieldName}_button" onclick="onSuggestionClick('${rb_type}','${fieldName}','${value}')">Accept change</button></div>`).insertAfter
+          (`#${rb_type}_${fieldName}`);
+    }
+    // construct a suggestion box
+    console.log(`Suggesting value ${value} for field ${fieldName}, which is in ID #${rb_type}_${fieldName}`);
+  });
+
+</script>
