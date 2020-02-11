@@ -2,7 +2,6 @@ namespace :tess do
 
   $api_key = Rails.application.secrets.bioportal_api_key
 
-
   desc 'Query BioPortal for scientific topics'
   task get_topics: :environment do
     outfile = File.open('scientific_topics.csv', 'w')

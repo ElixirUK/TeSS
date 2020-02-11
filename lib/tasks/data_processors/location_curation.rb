@@ -59,7 +59,11 @@ class LocationCuration < DataProcessor
       # Example of SPAM event, marked to be deleted, it requires a new curation_task view
       # curationTask.key = 'delete'
       # curationTask.message = 'Is this SPAM?'
-      curationTask.update_fields = [{field:'online', value:true, message:'Please verify that the event is not online.'}]
+      curationTask.update_fields = [{
+        field: 'online',
+        value: true,
+        message: 'Please verify that the event is not online.'
+      }]
       curationTask.message = name() + ' has suggested new values for some of the fields.'
       # curationTask.update_fields = {online:true, latitude:nil, longitude:nil}
       curationTask.resource = item

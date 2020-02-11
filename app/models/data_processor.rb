@@ -11,10 +11,10 @@ class DataProcessor
   def select
    return {}
   end
-  
+
   def run(item)
   end
-  
+
   # Clear all resources affected by this processor, so it can be run again
   def clear_run_processors
     query = Event if (self.content()=='Event')
