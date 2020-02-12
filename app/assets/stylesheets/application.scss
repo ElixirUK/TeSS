@@ -153,6 +153,11 @@ div.wrapper {
   }
 }
 
+.facet-select {
+  border-radius: 0;
+  border-width: 1px 0;
+}
+
 #sidebar-toggle {
   display: none;
   @media (max-width: $screen-md-min) {
@@ -969,4 +974,7 @@ input[type=checkbox].field-lock + label:before, .field-lock-example-open {
     font-size: 16px;
     line-height: 1.3;
   }
+}
+.questionnaire{
+  background-color: #fbff0233;
 }
