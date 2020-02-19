@@ -43,6 +43,7 @@ module CurationQueue
 
   def handle_edit_suggestion_destroy
     curation_tasks.open.where(key: 'review_suggestions').each(&:resolve)
+  end
 
   def from_unverified_or_rejected?
     user.has_role?(Role.rejected.name) || user.has_role?(Role.unverified.name)
